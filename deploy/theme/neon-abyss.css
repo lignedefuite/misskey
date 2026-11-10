@@ -1,0 +1,52 @@
+/* ===== Neon Abyss · 自定义 CSS ===== */
+/* 用法：设置 → 外观 → 自定义 CSS，整段粘贴后保存 */
+
+:root { --MI-radius: 16px; }
+
+/* 深空背景 + 光斑 */
+body {
+  background-color: #060911 !important;
+  background-image:
+    radial-gradient(1100px 560px at 12% -8%, rgba(34,211,238,.18), transparent 62%),
+    radial-gradient(900px 520px at 100% 0%, rgba(167,139,250,.16), transparent 58%),
+    radial-gradient(760px 620px at 50% 118%, rgba(56,189,248,.10), transparent 62%) !important;
+  background-attachment: fixed !important;
+}
+
+/* 面板：玻璃拟态 + 微光描边 */
+._panel {
+  background: rgba(15,21,36,.72) !important;
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid rgba(120,180,255,.14) !important;
+  box-shadow: 0 10px 34px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+/* 按钮 */
+._button { transition: box-shadow .18s ease, transform .18s ease; }
+._button:hover {
+  box-shadow: 0 0 0 1px rgba(34,211,238,.45), 0 0 18px rgba(34,211,238,.25);
+}
+._buttonPrimary, ._buttonGradate {
+  background-image: linear-gradient(135deg,#22d3ee,#a78bfa) !important;
+  color: #04121a !important;
+  border: none !important;
+  box-shadow: 0 0 18px rgba(34,211,238,.28);
+}
+._buttonPrimary:hover, ._buttonGradate:hover {
+  box-shadow: 0 0 28px rgba(167,139,250,.45);
+  transform: translateY(-1px);
+}
+
+/* 链接与选区 */
+a { text-shadow: 0 0 12px rgba(103,232,249,.22); }
+::selection { background: rgba(34,211,238,.35); color: #eaf6ff; }
+
+/* 滚动条 */
+* { scrollbar-width: thin; scrollbar-color: rgba(120,180,255,.35) transparent; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg,#22d3ee,#a78bfa);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-track { background: transparent; }

@@ -14,6 +14,7 @@ import widgets from '@/widgets/index.js';
 import directives from '@/directives/index.js';
 import components from '@/components/index.js';
 import { themeManager } from '@/theme.js';
+import { applyUiStyle } from '@/ui-style.js';
 import { isDeviceDarkmode } from '@/utility/is-device-darkmode.js';
 import { i18n } from '@/i18n.js';
 import { refreshCurrentAccount, login } from '@/accounts.js';
@@ -122,6 +123,7 @@ export async function common(createVue: () => Promise<App<Element>>) {
 
 	fetchInstanceMetaPromise.then(() => {
 		miLocalStorage.setItem('v', instance.version);
+		applyUiStyle();
 	});
 
 	//#region loginId

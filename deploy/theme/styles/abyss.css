@@ -1,0 +1,53 @@
+/* ===== Style Pack: Abyss =====
+ * 深色玻璃辉光 · 圆角 16
+ * 配色由主题（theme）提供，本文件只负责"形状与材质"：
+ * 圆角 / 边框 / 阴影 / 模糊 / 字体排印 / 滚动条
+ * Phase 1：整段粘进 设置 → 外观 → 自定义 CSS
+ * Phase 2：会被包进 html[data-ui-style="..."] 作用域
+ */
+
+:root { --MI-radius: 16px; }
+
+body {
+  background-image:
+    radial-gradient(1100px 560px at 12% -8%, color-mix(in srgb, var(--MI_THEME-accent) 18%, transparent), transparent 62%),
+    radial-gradient(900px 520px at 100% 0%, color-mix(in srgb, var(--MI_THEME-mention) 16%, transparent), transparent 58%),
+    radial-gradient(760px 620px at 50% 118%, color-mix(in srgb, var(--MI_THEME-link) 10%, transparent), transparent 62%);
+  background-attachment: fixed !important;
+}
+
+._panel, ._acrylic {
+  background: color-mix(in srgb, var(--MI_THEME-panel) 72%, transparent) !important;
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid var(--MI_THEME-divider) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 10px 34px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+._button { border-radius: 999px !important; transition: box-shadow .18s ease, transform .18s ease; }
+._button:hover {
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--MI_THEME-accent) 45%, transparent),
+              0 0 18px color-mix(in srgb, var(--MI_THEME-accent) 30%, transparent);
+}
+._buttonPrimary, ._buttonGradate {
+  background-image: linear-gradient(135deg, var(--MI_THEME-buttonGradateA), var(--MI_THEME-buttonGradateB)) !important;
+  color: var(--MI_THEME-fgOnAccent) !important;
+  border: none !important;
+  box-shadow: 0 0 18px color-mix(in srgb, var(--MI_THEME-accent) 28%, transparent);
+}
+._buttonPrimary:hover, ._buttonGradate:hover {
+  box-shadow: 0 0 28px color-mix(in srgb, var(--MI_THEME-buttonGradateB) 45%, transparent);
+  transform: translateY(-1px);
+}
+
+a { text-shadow: 0 0 12px color-mix(in srgb, var(--MI_THEME-link) 22%, transparent); }
+::selection { background: color-mix(in srgb, var(--MI_THEME-accent) 35%, transparent); }
+
+* { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--MI_THEME-accent) 35%, transparent) transparent; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--MI_THEME-accent), var(--MI_THEME-buttonGradateB));
+  border-radius: 999px;
+}
+::-webkit-scrollbar-track { background: transparent; }

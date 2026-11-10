@@ -1,0 +1,23 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+html,body{margin:0;padding:0;width:1024px;height:1024px;overflow:hidden;background:#0b1020}
+svg{display:block;width:1024px;height:1024px}
+</style></head><body>
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#22d3ee"/><stop offset="1" stop-color="#a78bfa"/></linearGradient>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b1020"/><stop offset="1" stop-color="#18213a"/></linearGradient>
+  <radialGradient id="halo" cx="0.5" cy="0.42" r="0.55"><stop offset="0" stop-color="#22d3ee" stop-opacity=".22"/><stop offset="1" stop-color="#22d3ee" stop-opacity="0"/></radialGradient>
+  <filter id="glow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="13" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+ </defs>
+ <rect width="512" height="512" fill="url(#bg)"/>
+ <rect width="512" height="512" fill="url(#halo)"/>
+ <g filter="url(#glow)">
+  <path d="M150 256 C196 172 330 158 402 232 C330 306 196 340 150 256 Z" fill="url(#g)"/>
+  <path d="M150 256 L86 192 L100 256 L86 320 Z" fill="url(#g)" opacity=".92"/>
+  <path d="M236 214 C258 236 258 276 236 298" fill="none" stroke="#07131f" stroke-width="9" opacity=".5"/>
+ </g>
+ <circle cx="330" cy="236" r="17" fill="#07131f"/>
+ <path d="M118 372 H258" stroke="#22d3ee" stroke-width="13" stroke-linecap="round" opacity=".55"/>
+ <path d="M158 420 H292" stroke="#a78bfa" stroke-width="11" stroke-linecap="round" opacity=".35"/>
+</svg>
+</body></html>

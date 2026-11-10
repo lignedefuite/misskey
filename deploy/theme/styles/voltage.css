@@ -1,0 +1,50 @@
+/* ===== Style Pack: Voltage =====
+ * 明亮暴烈 · 直角 0 · 硬边框 + 偏移阴影
+ * 配色由主题（theme）提供，本文件只负责"形状与材质"：
+ * 圆角 / 边框 / 阴影 / 模糊 / 字体排印 / 滚动条
+ * Phase 1：整段粘进 设置 → 外观 → 自定义 CSS
+ * Phase 2：会被包进 html[data-ui-style="..."] 作用域
+ */
+
+:root { --MI-radius: 0px; }
+
+body {
+  background-image: radial-gradient(700px 320px at 15% -10%, color-mix(in srgb, var(--MI_THEME-accent) 55%, transparent), transparent 66%);
+  background-attachment: fixed !important;
+}
+
+._panel, ._acrylic {
+  background: var(--MI_THEME-panel) !important;
+  border: 2px solid var(--MI_THEME-fg) !important;
+  border-radius: 0 !important;
+  box-shadow: 5px 5px 0 var(--MI_THEME-fg);
+  backdrop-filter: none !important;
+}
+
+._button {
+  border-radius: 0 !important;
+  border: 2px solid var(--MI_THEME-fg) !important;
+  box-shadow: 3px 3px 0 var(--MI_THEME-fg);
+  font-weight: 700;
+  transition: transform .08s ease, box-shadow .08s ease;
+}
+._button:hover { transform: translate(2px,2px); box-shadow: 1px 1px 0 var(--MI_THEME-fg); }
+._buttonPrimary, ._buttonGradate {
+  background: var(--MI_THEME-accent) !important;
+  background-image: none !important;
+  color: var(--MI_THEME-fgOnAccent) !important;
+  border: 2px solid var(--MI_THEME-fg) !important;
+}
+._input, input, textarea, select {
+  border-radius: 0 !important;
+  border: 2px solid var(--MI_THEME-fg) !important;
+  box-shadow: none !important;
+}
+
+/* 头像 / 圆形控件保持圆形，不被直角化 */
+img[class*="avatar"], [class*="avatar"] > img, ._round, [data-circle] { border-radius: 50% !important; }
+
+::selection { background: var(--MI_THEME-accent); color: var(--MI_THEME-fgOnAccent); }
+* { scrollbar-width: thin; scrollbar-color: var(--MI_THEME-fg) transparent; }
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-thumb { background: var(--MI_THEME-fg); border-radius: 0; }

@@ -621,6 +621,15 @@ SPDX-License-Identifier: AGPL-3.0-only
 								<template #label><SearchLabel>{{ i18n.ts.useSystemFont }}</SearchLabel></template>
 							</MkSwitch>
 						</SearchMarker>
+
+						<SearchMarker :keywords="['style', 'appearance', 'shape', 'radius', 'glass', 'square']">
+							<MkRadios
+								v-model="uiStyleSelection"
+								:options="uiStyleOptions"
+							>
+								<template #label><SearchLabel>{{ i18n.ts._uiStyle.title }}</SearchLabel></template>
+							</MkRadios>
+						</SearchMarker>
 					</div>
 				</MkFolder>
 			</SearchMarker>
@@ -896,6 +905,8 @@ import MkFeatureBanner from '@/components/MkFeatureBanner.vue';
 import { globalEvents } from '@/events.js';
 import { claimAchievement } from '@/utility/achievements.js';
 import { instance } from '@/instance.js';
+import { uiStyleOverride, setUiStyle } from '@/ui-style.js';
+import type { UiStyle } from '@/ui-style.js';
 import { ensureSignin } from '@/i.js';
 import { genId } from '@/utility/id.js';
 import { suggestReload } from '@/utility/reload-suggest.js';
@@ -969,6 +980,20 @@ const makeEveryTextElementsSelectable = prefer.model('makeEveryTextElementsSelec
 
 const fontSize = ref(miLocalStorage.getItem('fontSize') as '1' | '2' | '3' | null);
 const useSystemFont = ref(miLocalStorage.getItem('useSystemFont') != null);
+
+const uiStyleOptions = computed((): { value: UiStyle | null; label: string }[] => [
+	{ value: null, label: i18n.ts._uiStyle.followDefault },
+	{ value: 'abyss', label: i18n.ts._uiStyle.abyss },
+	{ value: 'voltage', label: i18n.ts._uiStyle.voltage },
+	{ value: 'glass', label: i18n.ts._uiStyle.glass },
+	{ value: 'wasteland', label: i18n.ts._uiStyle.wasteland },
+]);
+
+const uiStyleSelection = ref<UiStyle | null>(uiStyleOverride.value);
+
+watch(uiStyleSelection, (v) => {
+	setUiStyle(v);
+});
 
 watch(lang, () => {
 	miLocalStorage.setItem('lang', lang.value as string);

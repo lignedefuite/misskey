@@ -13469,4 +13469,34 @@ export interface Locale extends ILocale {
          */
         "mfm": string;
     };
+    "_uiStyle": {
+        /**
+         * 外観スタイル
+         */
+        "title": string;
+        /**
+         * UIの形と質感を切り替えます。配色はテーマから別途選べます。
+         */
+        "description": string;
+        /**
+         * サーバーの既定に従う
+         */
+        "followDefault": string;
+        /**
+         * Abyss（丸み・ガラス質）
+         */
+        "abyss": string;
+        /**
+         * Voltage（直角・硬質）
+         */
+        "voltage": string;
+        /**
+         * Liquid Glass（大丸み・ぼかし）
+         */
+        "glass": string;
+        /**
+         * Wasteland（廃土・ざらつき）
+         */
+        "wasteland": string;
+    };
 }

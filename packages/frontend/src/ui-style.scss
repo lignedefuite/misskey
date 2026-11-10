@@ -1,0 +1,173 @@
+/*
+ * SPDX-FileCopyrightText: syuilo and misskey-project
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+/**
+ * 外観スタイル（UI Style）
+ * html[data-ui-style] で切り替わる「形・質感」レイヤー。
+ * 色はテーマ（--MI_THEME-*）が担当するので、ここでは色を直書きしない。
+ */
+
+/* ========== Abyss: 丸み + ガラス質の光沢 ========== */
+html[data-ui-style='abyss'] {
+	--MI-radius: 16px;
+}
+
+html[data-ui-style='abyss'] body {
+	background-image:
+		radial-gradient(1100px 560px at 12% -8%, color-mix(in srgb, var(--MI_THEME-accent) 18%, transparent), transparent 62%),
+		radial-gradient(900px 520px at 100% 0%, color-mix(in srgb, var(--MI_THEME-mention) 16%, transparent), transparent 58%);
+	background-attachment: fixed;
+}
+
+html[data-ui-style='abyss'] ._panel,
+html[data-ui-style='abyss'] ._acrylic {
+	background: color-mix(in srgb, var(--MI_THEME-panel) 72%, transparent);
+	backdrop-filter: blur(14px) saturate(140%);
+	-webkit-backdrop-filter: blur(14px) saturate(140%);
+	border: 1px solid var(--MI_THEME-divider);
+	box-shadow: 0 10px 34px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+html[data-ui-style='abyss'] ._button {
+	border-radius: 999px;
+}
+
+html[data-ui-style='abyss'] ._buttonPrimary,
+html[data-ui-style='abyss'] ._buttonGradate {
+	background-image: linear-gradient(135deg, var(--MI_THEME-buttonGradateA), var(--MI_THEME-buttonGradateB));
+	box-shadow: 0 0 18px color-mix(in srgb, var(--MI_THEME-accent) 28%, transparent);
+}
+
+/* ========== Voltage: 直角 + 硬い境界線 ========== */
+html[data-ui-style='voltage'] {
+	--MI-radius: 0px;
+}
+
+html[data-ui-style='voltage'] ._panel,
+html[data-ui-style='voltage'] ._acrylic {
+	background: var(--MI_THEME-panel);
+	border: 2px solid var(--MI_THEME-fg);
+	border-radius: 0;
+	box-shadow: 5px 5px 0 var(--MI_THEME-fg);
+	backdrop-filter: none;
+}
+
+html[data-ui-style='voltage'] ._button {
+	border-radius: 0;
+	border: 2px solid var(--MI_THEME-fg);
+	box-shadow: 3px 3px 0 var(--MI_THEME-fg);
+	font-weight: 700;
+	transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+
+html[data-ui-style='voltage'] ._button:hover {
+	transform: translate(2px, 2px);
+	box-shadow: 1px 1px 0 var(--MI_THEME-fg);
+}
+
+html[data-ui-style='voltage'] ._buttonPrimary,
+html[data-ui-style='voltage'] ._buttonGradate {
+	background: var(--MI_THEME-accent);
+	background-image: none;
+	color: var(--MI_THEME-fgOnAccent);
+	border: 2px solid var(--MI_THEME-fg);
+}
+
+html[data-ui-style='voltage'] input,
+html[data-ui-style='voltage'] textarea,
+html[data-ui-style='voltage'] select {
+	border-radius: 0;
+	border-width: 2px;
+}
+
+/* 円形要素（アバター等）は直角化しない */
+html[data-ui-style='voltage'] [class*='avatar'],
+html[data-ui-style='voltage'] [class*='circle'] {
+	border-radius: 50%;
+}
+
+/* ========== Liquid Glass: 大きな丸み + ぼかし ========== */
+html[data-ui-style='glass'] {
+	--MI-radius: 26px;
+}
+
+html[data-ui-style='glass'] body {
+	background-image:
+		radial-gradient(900px 500px at 10% 0%, color-mix(in srgb, var(--MI_THEME-accent) 22%, transparent), transparent 60%),
+		radial-gradient(900px 520px at 100% 10%, color-mix(in srgb, var(--MI_THEME-buttonGradateB) 22%, transparent), transparent 60%);
+	background-attachment: fixed;
+}
+
+html[data-ui-style='glass'] ._panel,
+html[data-ui-style='glass'] ._acrylic {
+	background: color-mix(in srgb, var(--MI_THEME-panel) 62%, transparent);
+	backdrop-filter: blur(26px) saturate(180%);
+	-webkit-backdrop-filter: blur(26px) saturate(180%);
+	border: 1px solid color-mix(in srgb, #ffffff 85%, transparent);
+	box-shadow: 0 12px 36px rgba(31, 41, 80, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+html[data-ui-style='glass'] ._button {
+	border-radius: 999px;
+	background: color-mix(in srgb, var(--MI_THEME-panel) 60%, transparent);
+	border: 1px solid color-mix(in srgb, #ffffff 75%, transparent);
+	backdrop-filter: blur(16px) saturate(160%);
+	-webkit-backdrop-filter: blur(16px) saturate(160%);
+}
+
+html[data-ui-style='glass'] ._buttonPrimary,
+html[data-ui-style='glass'] ._buttonGradate {
+	background: linear-gradient(135deg, var(--MI_THEME-buttonGradateA), var(--MI_THEME-buttonGradateB));
+	color: var(--MI_THEME-fgOnAccent);
+}
+
+/* ========== Wasteland: 廃土 + ざらつき ========== */
+html[data-ui-style='wasteland'] {
+	--MI-radius: 3px;
+}
+
+html[data-ui-style='wasteland'] body {
+	filter: saturate(0.82) contrast(1.04);
+}
+
+html[data-ui-style='wasteland'] body::after {
+	content: '';
+	position: fixed;
+	inset: 0;
+	pointer-events: none;
+	z-index: 9999;
+	background-image: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.16) 0 1px, transparent 1px 3px);
+	mix-blend-mode: multiply;
+}
+
+html[data-ui-style='wasteland'] ._panel,
+html[data-ui-style='wasteland'] ._acrylic {
+	background: color-mix(in srgb, var(--MI_THEME-panel) 94%, transparent);
+	border: 1px solid var(--MI_THEME-divider);
+	border-radius: 3px;
+	box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.28), 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+
+html[data-ui-style='wasteland'] ._button {
+	border-radius: 2px;
+	border: 1px solid var(--MI_THEME-divider);
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	font-weight: 700;
+}
+
+html[data-ui-style='wasteland'] ._buttonPrimary,
+html[data-ui-style='wasteland'] ._buttonGradate {
+	background: var(--MI_THEME-accent);
+	background-image: none;
+	color: var(--MI_THEME-fgOnAccent);
+}
+
+html[data-ui-style='wasteland'] h1,
+html[data-ui-style='wasteland'] h2,
+html[data-ui-style='wasteland'] h3 {
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+}

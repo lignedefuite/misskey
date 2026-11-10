@@ -1,0 +1,31 @@
+{
+	email {$ACME_EMAIL}
+	admin off
+}
+
+{$MISSKEY_HOST} {
+	encode zstd gzip
+
+	request_body {
+		max_size 300MB
+	}
+
+	reverse_proxy web:3000 {
+		transport http {
+			read_timeout 360s
+			write_timeout 360s
+		}
+	}
+
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		-Server
+	}
+
+	log {
+		output file /data/access.log {
+			roll_size 20MB
+			roll_keep 5
+		}
+	}
+}

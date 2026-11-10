@@ -54,6 +54,20 @@ export const getBuiltinThemes = () => Promise.all(
 		'd-cherry',
 		'd-ice',
 		'd-u0',
+
+		// iwashi custom themes
+		'abyss-cyan',
+		'abyss-ember',
+		'abyss-mono',
+		'voltage-lime',
+		'voltage-magenta',
+		'voltage-azure',
+		'glass-mist',
+		'glass-rose',
+		'glass-sage',
+		'waste-winter',
+		'waste-rust',
+		'waste-fallout',
 	].map(name => import(`@@/themes/${name}.json5`).then(({ default: _default }): Theme => _default)),
 );
 

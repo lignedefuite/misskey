@@ -1,0 +1,108 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+*{box-sizing:border-box}
+body{margin:0;padding:22px;background:#12141a;font-family:-apple-system,'Segoe UI',system-ui,sans-serif}
+.lbl{color:#8b95a8;font-size:12px;letter-spacing:2px;text-transform:uppercase;margin:0 0 8px 2px}
+.stage{width:1150px;border-radius:14px;overflow:hidden;margin-bottom:26px}
+
+/* ===== 通用骨架 ===== */
+.app{padding:18px;min-height:330px}
+.bar{display:flex;align-items:center;gap:12px;padding:11px 16px;margin-bottom:14px}
+.mark{width:30px;height:30px;background:linear-gradient(135deg,#22d3ee,#a78bfa)}
+.brand{font-weight:700;font-size:15px}
+.nav{margin-left:auto;display:flex;gap:14px;font-size:12.5px}
+.cols{display:grid;grid-template-columns:250px 1fr;gap:14px}
+.card{padding:14px}
+.note{display:flex;gap:11px}
+.av{width:38px;height:38px;flex:none;background:linear-gradient(135deg,#22d3ee,#a78bfa)}
+.av2{width:38px;height:38px;flex:none;background:linear-gradient(135deg,#D2FF00,#9AE600)}
+.nm{font-weight:700;font-size:13.5px}
+.hd{font-size:11.5px;opacity:.6;margin-left:5px}
+.tx{font-size:13.5px;line-height:1.6;margin-top:6px}
+.chips{display:flex;gap:6px;margin-top:10px}
+.chip{font-size:12px;padding:3px 9px}
+.btn{padding:8px 18px;font-weight:700;font-size:13px;display:inline-block}
+.inp{padding:10px 14px;font-size:13px;color:#888}
+.row{display:flex;gap:10px;align-items:center}
+.h3{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;opacity:.55;margin:0 0 8px}
+.tag{font-size:12.5px;margin-bottom:5px}
+
+/* ===== 1. NEON ABYSS ===== */
+.neon{background:#060911;background-image:radial-gradient(900px 420px at 10% -10%,rgba(34,211,238,.20),transparent 60%),radial-gradient(700px 420px at 100% 0%,rgba(167,139,250,.18),transparent 60%);color:#c8d3f5}
+.neon .bar{background:rgba(15,21,36,.62);border:1px solid rgba(120,160,255,.14);border-radius:16px;backdrop-filter:blur(12px)}
+.neon .mark{border-radius:10px;box-shadow:0 0 20px rgba(34,211,238,.55)}
+.neon .nav b{color:#22d3ee}
+.neon .card{background:rgba(15,21,36,.72);border:1px solid rgba(120,180,255,.14);border-radius:16px;backdrop-filter:blur(14px);box-shadow:0 8px 28px rgba(0,0,0,.45)}
+.neon .av,.neon .av2{border-radius:50%;box-shadow:0 0 16px rgba(167,139,250,.4)}
+.neon .nm{color:#eaf2ff}
+.neon .tag{color:#fbbf24}
+.neon .chip{background:rgba(34,211,238,.12);border:1px solid rgba(34,211,238,.35);border-radius:999px;color:#9fe8f5}
+.neon .btn{background-image:linear-gradient(135deg,#22d3ee,#a78bfa);color:#04121a;border-radius:999px;box-shadow:0 0 18px rgba(34,211,238,.35)}
+.neon .inp{background:rgba(120,160,255,.06);border:1px solid rgba(120,160,255,.2);border-radius:14px;flex:1}
+
+/* ===== 2. LIME VOLTAGE（明亮 + 直角）===== */
+.lime{background:#FBFFE9;background-image:radial-gradient(700px 300px at 15% -10%,rgba(210,255,0,.55),transparent 65%);color:#0A0A0A}
+.lime .bar{background:#fff;border:2px solid #0A0A0A;border-radius:0;box-shadow:5px 5px 0 #0A0A0A}
+.lime .mark{background:#0A0A0A;border-radius:0}
+.lime .brand{letter-spacing:-.3px}
+.lime .nav{font-weight:600}
+.lime .nav b{color:#0A0A0A;background:#D2FF00;padding:2px 6px}
+.lime .card{background:#fff;border:2px solid #0A0A0A;border-radius:0;box-shadow:5px 5px 0 #0A0A0A}
+.lime .av,.lime .av2{border-radius:0;border:2px solid #0A0A0A}
+.lime .av2{background:#D2FF00}
+.lime .nm{color:#0A0A0A}
+.lime .tag{color:#0A0A0A;font-weight:700;background:#D2FF00;display:inline-block;padding:0 4px}
+.lime .chip{background:#F1FFC2;border:2px solid #0A0A0A;border-radius:0;font-weight:600}
+.lime .btn{background:#D2FF00;color:#0A0A0A;border:2px solid #0A0A0A;border-radius:0;box-shadow:3px 3px 0 #0A0A0A}
+.lime .inp{background:#fff;border:2px solid #0A0A0A;border-radius:0;flex:1}
+
+/* ===== 3. LIQUID GLASS（极简玻璃）===== */
+.glass{background:linear-gradient(140deg,#E9EEFF 0%,#F6F0FF 45%,#FFF5F0 100%);color:#1B1B1F}
+.glass .bar{background:rgba(255,255,255,.42);border:1px solid rgba(255,255,255,.75);border-radius:22px;backdrop-filter:blur(24px) saturate(180%);box-shadow:0 8px 30px rgba(31,41,80,.12)}
+.glass .mark{background:linear-gradient(135deg,#7C9CFF,#B08CFF);border-radius:14px;box-shadow:0 6px 18px rgba(124,156,255,.45)}
+.glass .nav b{color:#4F6BE0}
+.glass .card{background:rgba(255,255,255,.45);border:1px solid rgba(255,255,255,.8);border-radius:26px;backdrop-filter:blur(26px) saturate(180%);box-shadow:0 10px 34px rgba(31,41,80,.10),inset 0 1px 0 rgba(255,255,255,.85)}
+.glass .av,.glass .av2{border-radius:50%;box-shadow:0 4px 14px rgba(31,41,80,.18)}
+.glass .av2{background:linear-gradient(135deg,#9AE600,#D2FF00)}
+.glass .nm{color:#111}
+.glass .tag{color:#4F6BE0}
+.glass .chip{background:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.9);border-radius:999px;color:#3A4A8A;box-shadow:0 2px 8px rgba(31,41,80,.08)}
+.glass .btn{background:linear-gradient(135deg,rgba(255,255,255,.95),rgba(235,240,255,.85));color:#23305E;border-radius:999px;border:1px solid rgba(255,255,255,.9);box-shadow:0 6px 18px rgba(31,41,80,.16)}
+.glass .inp{background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.9);border-radius:18px;flex:1}
+</style></head><body>
+
+<div class="lbl">① Neon Abyss · 深色霓虹 · 圆角 16 · 玻璃辉光</div>
+<div class="stage neon" id="s1"></div>
+
+<div class="lbl">② Lime Voltage · 极亮 · 直角 0 · 硬边框与偏移阴影</div>
+<div class="stage lime" id="s2"></div>
+
+<div class="lbl">③ Liquid Glass · 极简 · 大圆角 26 · 液态玻璃模糊</div>
+<div class="stage glass" id="s3"></div>
+
+<script>
+const tpl = (accentNote) => `
+<div class="app">
+  <div class="bar"><div class="mark"></div><div class="brand">いわし</div>
+    <div class="nav"><span><b>ホーム</b></span><span>通知</span><span>探索</span><span>ドライブ</span></div></div>
+  <div class="cols">
+    <div class="card">
+      <div class="row" style="margin-bottom:12px"><div class="av"></div>
+        <div><div class="nm">iwashi</div><div class="hd">@iwashi@mk.iwashi.rip</div></div></div>
+      <div class="h3">Trending</div>
+      <div class="tag">#fediverse</div><div class="tag">#夜の勉強</div><div class="tag">#数学分析</div>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:12px"><div class="row"><div class="av2"></div><div class="inp">今なにしてる？</div><span class="btn">投稿</span></div></div>
+      <div class="card"><div class="note"><div class="av"></div><div>
+        <div><span class="nm">iwashi</span><span class="hd">@iwashi@mk.iwashi.rip · 3分前</span></div>
+        <div class="tx">冷峻的直角也挺帅的。<br>这一套 ${accentNote}</div>
+        <div class="chips"><span class="chip">👍 3</span><span class="chip">🎉 5</span><span class="chip">✨ 2</span></div>
+      </div></div></div>
+    </div>
+  </div>
+</div>`;
+document.getElementById('s1').innerHTML = tpl('是霓虹深渊');
+document.getElementById('s2').innerHTML = tpl('是电光青柠');
+document.getElementById('s3').innerHTML = tpl('是液态玻璃');
+</script>
+</body></html>

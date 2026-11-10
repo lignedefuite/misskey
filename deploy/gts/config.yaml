@@ -1,0 +1,32 @@
+# GoToSocial 配置 —— gts.iwashi.rip
+# 注意：host 一旦跑起来就不要改，否则 ActivityPub 身份会变
+
+host: "gts.iwashi.rip"
+protocol: "https"
+
+# 容器内监听；TLS 由 Caddy 处理
+bind-address: "0.0.0.0"
+port: 8080
+letsencrypt-enabled: false
+
+# 位于 Caddy 之后，信任 Docker 内网转发的 X-Forwarded-For
+trusted-proxies:
+  - "172.16.0.0/12"
+  - "10.0.0.0/8"
+  - "192.168.0.0/16"
+
+# 存储：SQLite + 本地文件（个人单用户够用，备份也简单）
+db-type: "sqlite"
+db-address: "/gotosocial/storage/sqlite.db"
+storage-backend: "local"
+storage-local-base-path: "/gotosocial/storage"
+
+# 注册默认关闭（你手动建号即可）
+accounts-registration-open: false
+
+# 联邦模式：blocklist = 默认全联邦，用黑名单挡；allowlist = 只和名单内实例
+instance-federation-mode: "blocklist"
+instance-federation-spam-filter: false
+
+# 前端静态资源（镜像自带）
+web-asset-base-dir: "./web/assets/"

@@ -155,6 +155,10 @@ export const packedMetaLiteSchema = {
 			type: 'string',
 			optional: false, nullable: true,
 		},
+		defaultUiStyle: {
+			type: 'string',
+			optional: false, nullable: false,
+		},
 		maxNoteTextLength: {
 			type: 'number',
 			optional: false, nullable: false,

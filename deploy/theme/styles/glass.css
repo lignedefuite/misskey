@@ -1,0 +1,50 @@
+/* ===== Style Pack: Liquid Glass =====
+ * 极简液态玻璃 · 大圆角 26 · 强模糊
+ * 配色由主题（theme）提供，本文件只负责"形状与材质"：
+ * 圆角 / 边框 / 阴影 / 模糊 / 字体排印 / 滚动条
+ * Phase 1：整段粘进 设置 → 外观 → 自定义 CSS
+ * Phase 2：会被包进 html[data-ui-style="..."] 作用域
+ */
+
+:root { --MI-radius: 26px; }
+
+body {
+  background-image:
+    radial-gradient(900px 500px at 10% 0%, color-mix(in srgb, var(--MI_THEME-accent) 22%, transparent), transparent 60%),
+    radial-gradient(900px 520px at 100% 10%, color-mix(in srgb, var(--MI_THEME-buttonGradateB) 22%, transparent), transparent 60%),
+    radial-gradient(700px 600px at 50% 110%, color-mix(in srgb, var(--MI_THEME-mention) 14%, transparent), transparent 62%);
+  background-attachment: fixed !important;
+}
+
+._panel, ._acrylic {
+  background: color-mix(in srgb, var(--MI_THEME-panel) 62%, transparent) !important;
+  backdrop-filter: blur(26px) saturate(180%);
+  -webkit-backdrop-filter: blur(26px) saturate(180%);
+  border: 1px solid color-mix(in srgb, #ffffff 92%, transparent) !important;
+  border-radius: 26px !important;
+  box-shadow: 0 12px 36px rgba(31,41,80,.16), inset 0 1px 0 rgba(255,255,255,.95);
+}
+
+._button {
+  border-radius: 999px !important;
+  background: color-mix(in srgb, var(--MI_THEME-panel) 60%, transparent) !important;
+  border: 1px solid color-mix(in srgb, #ffffff 75%, transparent) !important;
+  box-shadow: 0 6px 18px rgba(31,41,80,.14);
+  backdrop-filter: blur(16px) saturate(160%);
+}
+._buttonPrimary, ._buttonGradate {
+  background: linear-gradient(135deg, var(--MI_THEME-buttonGradateA), var(--MI_THEME-buttonGradateB)) !important;
+  color: var(--MI_THEME-fgOnAccent) !important;
+  box-shadow: 0 8px 22px color-mix(in srgb, var(--MI_THEME-accent) 35%, transparent);
+}
+._input, input, textarea, select {
+  border-radius: 18px !important;
+  background: color-mix(in srgb, var(--MI_THEME-panel) 55%, transparent) !important;
+  border: 1px solid color-mix(in srgb, #ffffff 85%, transparent) !important;
+  backdrop-filter: blur(14px);
+}
+
+::selection { background: color-mix(in srgb, var(--MI_THEME-accent) 30%, transparent); }
+* { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--MI_THEME-accent) 30%, transparent) transparent; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--MI_THEME-accent) 45%, transparent); border-radius: 999px; }

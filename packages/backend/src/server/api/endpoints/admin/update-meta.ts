@@ -61,6 +61,7 @@ export const paramDef = {
 		iconUrl: { type: 'string', nullable: true },
 		app192IconUrl: { type: 'string', nullable: true },
 		app512IconUrl: { type: 'string', nullable: true },
+		defaultUiStyle: { type: 'string', enum: ['abyss', 'voltage', 'glass', 'wasteland'] },
 		backgroundImageUrl: { type: 'string', nullable: true },
 		logoImageUrl: { type: 'string', nullable: true },
 		name: { type: 'string', nullable: true },
@@ -307,6 +308,10 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 
 			if (ps.app512IconUrl !== undefined) {
 				set.app512IconUrl = ps.app512IconUrl;
+			}
+
+			if (ps.defaultUiStyle !== undefined) {
+				set.defaultUiStyle = ps.defaultUiStyle;
 			}
 
 			if (ps.serverErrorImageUrl !== undefined) {

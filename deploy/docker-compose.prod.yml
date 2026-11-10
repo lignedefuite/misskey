@@ -1,0 +1,92 @@
+# Misskey 个人实例 —— 生产环境 Compose（用你自己的 fork 代码构建镜像）
+#
+# 在仓库根目录执行：
+#   cp deploy/.env.example deploy/.env      # 填域名 + 密码
+#   bash deploy/gen-config.sh               # 生成 .config/default.yml
+#   docker compose -f deploy/docker-compose.prod.yml up -d --build
+#
+# 只有 caddy 对外暴露 80/443；web/db/redis 都在内网。
+
+name: misskey
+
+services:
+  web:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    image: misskey-personal:local
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - internal_network
+      - external_network
+    volumes:
+      - ../files:/misskey/files
+      - ../.config:/misskey/.config:ro
+
+  db:
+    image: postgres:18-alpine
+    restart: unless-stopped
+    env_file:
+      - .env
+    networks:
+      - internal_network
+    volumes:
+      - ./data/db:/var/lib/postgresql
+    healthcheck:
+      test: "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"
+      interval: 5s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    networks:
+      - internal_network
+    volumes:
+      - ./data/redis:/data
+    healthcheck:
+      test: "redis-cli ping"
+      interval: 5s
+      retries: 20
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on:
+      - web
+    env_file:
+      - .env
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    networks:
+      - internal_network
+      - external_network
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./data/caddy:/data
+
+  # 可选：全文搜索。单用户可先不装；装了就在 .config/default.yml 里补 fulltextSearch 配置
+  # meilisearch:
+  #   image: getmeili/meilisearch:v1.3.4
+  #   restart: unless-stopped
+  #   environment:
+  #     - MEILI_NO_ANALYTICS=true
+  #     - MEILI_ENV=production
+  #     - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
+  #   networks:
+  #     - internal_network
+  #   volumes:
+  #     - ./data/meili:/meili_data
+
+networks:
+  internal_network:
+    internal: true
+  external_network:

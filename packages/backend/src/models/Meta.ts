@@ -157,6 +157,12 @@ export class MiMeta {
 	public app512IconUrl: string | null;
 
 	@Column('varchar', {
+		length: 32,
+		default: 'abyss',
+	})
+	public defaultUiStyle: string;
+
+	@Column('varchar', {
 		length: 1024,
 		nullable: true,
 	})

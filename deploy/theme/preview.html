@@ -1,0 +1,69 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+:root{--MI-radius:16px;--bg:#060911;--panel:#0f1524;--fg:#c8d3f5;--accent:#22d3ee;--violet:#a78bfa;--divider:rgba(120,160,255,.14)}
+body{margin:0;padding:28px;font-family:-apple-system,'Segoe UI',system-ui,sans-serif;color:var(--fg);
+background-color:var(--bg);
+background-image:
+ radial-gradient(1100px 560px at 12% -8%, rgba(34,211,238,.18), transparent 62%),
+ radial-gradient(900px 520px at 100% 0%, rgba(167,139,250,.16), transparent 58%),
+ radial-gradient(760px 620px at 50% 118%, rgba(56,189,248,.10), transparent 62%);
+background-attachment:fixed}
+.topbar{display:flex;align-items:center;gap:14px;padding:14px 20px;margin-bottom:22px;border-radius:18px;
+background:rgba(15,21,36,.62);backdrop-filter:blur(14px);border:1px solid var(--divider)}
+.logo{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#22d3ee,#a78bfa);box-shadow:0 0 22px rgba(34,211,238,.5)}
+.title{font-weight:700;letter-spacing:.5px;font-size:17px}
+.nav{display:flex;gap:16px;margin-left:auto;font-size:13px;color:#9fb0d9}
+.nav b{color:var(--accent)}
+.grid{display:grid;grid-template-columns:280px 1fr;gap:20px}
+.panel{border-radius:18px;padding:18px;background:rgba(15,21,36,.72);backdrop-filter:blur(14px);
+border:1px solid var(--divider);box-shadow:0 10px 34px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.04)}
+.card{border-radius:16px;padding:16px;margin-bottom:14px;background:rgba(15,21,36,.72);backdrop-filter:blur(14px);
+border:1px solid var(--divider);box-shadow:0 10px 30px rgba(0,0,0,.4)}
+.row{display:flex;gap:12px;align-items:flex-start}
+.avatar{width:44px;height:44px;border-radius:50%;flex:none;background:linear-gradient(135deg,#22d3ee,#a78bfa);box-shadow:0 0 20px rgba(167,139,250,.45)}
+.name{font-weight:700;color:#eaf2ff}
+.handle{color:#7c8cb3;font-size:12.5px;margin-left:6px}
+.text{margin-top:8px;line-height:1.65;font-size:14.5px}
+.mention{color:#a78bfa;text-shadow:0 0 12px rgba(167,139,250,.35)}
+.hashtag{color:#fbbf24}
+.link{color:#67e8f9;text-shadow:0 0 12px rgba(103,232,249,.25)}
+.reactions{display:flex;gap:8px;margin-top:12px}
+.reaction{font-size:13px;padding:4px 10px;border-radius:999px;background:rgba(34,211,238,.12);
+border:1px solid rgba(34,211,238,.35);color:#9fe8f5}
+.btn{display:inline-block;padding:10px 22px;border-radius:999px;font-weight:700;font-size:14px;color:#04121a;
+background-image:linear-gradient(135deg,#22d3ee,#a78bfa);box-shadow:0 0 22px rgba(34,211,238,.35);border:none}
+.btn2{display:inline-block;padding:10px 20px;border-radius:999px;font-size:14px;color:var(--fg);
+background:rgba(120,160,255,.10);border:1px solid var(--divider);margin-left:10px}
+.composer{display:flex;gap:12px;align-items:center}
+.input{flex:1;padding:12px 16px;border-radius:14px;background:rgba(120,160,255,.06);
+border:1px solid rgba(120,160,255,.20);color:#8fa3c8;font-size:14px}
+h3{margin:0 0 12px;font-size:13px;letter-spacing:1.4px;text-transform:uppercase;color:#7c8cb3}
+</style></head><body>
+<div class="topbar"><div class="logo"></div><div class="title">いわし</div>
+<div class="nav"><span><b>ホーム</b></span><span>通知</span><span>探索</span><span>ドライブ</span></div></div>
+<div class="grid">
+  <div class="panel">
+    <div style="display:flex;gap:12px;align-items:center;margin-bottom:16px">
+      <div class="avatar"></div><div><div class="name">iwashi</div><div class="handle" style="margin:2px 0 0">@iwashi@mk.iwashi.rip</div></div>
+    </div>
+    <div style="display:flex;gap:26px;font-size:12.5px;color:#7c8cb3">
+      <div><b style="color:#eaf2ff;font-size:15px">0</b><br>ノート</div>
+      <div><b style="color:#eaf2ff;font-size:15px">0</b><br>フォロー</div>
+      <div><b style="color:#eaf2ff;font-size:15px">0</b><br>フォロワー</div>
+    </div>
+    <hr style="border:none;border-top:1px solid var(--divider);margin:16px 0">
+    <h3>Trending</h3>
+    <div style="font-size:13.5px;line-height:2"><span class="hashtag">#fediverse</span><br><span class="hashtag">#夜の勉強</span><br><span class="hashtag">#数学分析</span></div>
+  </div>
+  <div>
+    <div class="card composer"><div class="avatar" style="width:38px;height:38px"></div><div class="input">今なにしてる？</div><span class="btn">投稿</span></div>
+    <div class="card"><div class="row"><div class="avatar"></div>
+      <div><div><span class="name">iwashi</span><span class="handle">@iwashi@mk.iwashi.rip · 3分前</span></div>
+      <div class="text">さっき <span class="mention">@friend@example.social</span> と連合テストした。<br>ちゃんと届いてる、すごい <span class="hashtag">#fediverse</span> <span class="link">https://mk.iwashi.rip</span></div>
+      <div class="reactions"><span class="reaction">👍 3</span><span class="reaction">🎉 5</span><span class="reaction">✨ 2</span></div></div></div></div>
+    <div class="card"><div class="row"><div class="avatar"></div>
+      <div><div><span class="name">iwashi</span><span class="handle">@iwashi@mk.iwashi.rip · 12分前</span></div>
+      <div class="text">この見た目、最高すぎる。</div>
+      <div style="margin-top:14px"><span class="btn">フォロー</span><span class="btn2">もっと見る</span></div></div></div></div>
+  </div>
+</div>
+</body></html>

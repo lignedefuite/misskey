@@ -1,0 +1,114 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+*{box-sizing:border-box}
+body{margin:0;padding:20px;background:#101216;font-family:-apple-system,'Segoe UI',system-ui,sans-serif}
+.lbl{display:flex;align-items:center;gap:10px;color:#8b95a8;font-size:11.5px;letter-spacing:2px;text-transform:uppercase;margin:16px 0 7px 2px}
+.dots{display:flex;gap:5px;margin-left:auto}
+.dot{width:13px;height:13px;border-radius:50%;border:1px solid rgba(255,255,255,.25)}
+.stage{width:1150px;overflow:hidden;position:relative}
+.app{padding:16px}
+.bar{display:flex;align-items:center;gap:11px;padding:10px 15px;margin-bottom:12px}
+.mark{width:28px;height:28px;background:linear-gradient(135deg,var(--a1),var(--a2))}
+.brand{font-weight:700;font-size:14.5px}
+.nav{margin-left:auto;display:flex;gap:13px;font-size:12px}
+.cols{display:grid;grid-template-columns:240px 1fr;gap:12px}
+.card{padding:13px;position:relative}
+.row{display:flex;gap:10px;align-items:center}
+.av{width:36px;height:36px;flex:none;background:linear-gradient(135deg,var(--a1),var(--a2))}
+.nm{font-weight:700;font-size:13px}
+.hd{font-size:11px;opacity:.6;margin-left:5px}
+.tx{font-size:13px;line-height:1.6;margin-top:5px}
+.chips{display:flex;gap:6px;margin-top:9px}
+.chip{font-size:11.5px;padding:3px 9px}
+.btn{padding:7px 16px;font-weight:700;font-size:12.5px;display:inline-block}
+.inp{padding:9px 13px;font-size:12.5px;flex:1;opacity:.75}
+.h3{font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin:0 0 7px}
+.tag{font-size:12px;margin-bottom:4px}
+
+/* --- abyss --- */
+.s-abyss{background:var(--bg);background-image:radial-gradient(900px 400px at 10% -10%,color-mix(in srgb,var(--a1) 20%,transparent),transparent 60%),radial-gradient(700px 400px at 100% 0%,color-mix(in srgb,var(--a2) 18%,transparent),transparent 60%);color:var(--fg)}
+.s-abyss .bar{background:color-mix(in srgb,var(--panel) 66%,transparent);border:1px solid rgba(120,160,255,.14);border-radius:16px;backdrop-filter:blur(12px)}
+.s-abyss .mark{border-radius:10px;box-shadow:0 0 18px var(--a1)}
+.s-abyss .nav b{color:var(--a1)}
+.s-abyss .card{background:color-mix(in srgb,var(--panel) 74%,transparent);border:1px solid rgba(120,180,255,.14);border-radius:16px;backdrop-filter:blur(14px);box-shadow:0 8px 26px rgba(0,0,0,.45)}
+.s-abyss .av{border-radius:50%}
+.s-abyss .chip{background:color-mix(in srgb,var(--a1) 12%,transparent);border:1px solid color-mix(in srgb,var(--a1) 35%,transparent);border-radius:999px}
+.s-abyss .btn{background:linear-gradient(135deg,var(--a1),var(--a2));color:#04121a;border-radius:999px;box-shadow:0 0 16px color-mix(in srgb,var(--a1) 35%,transparent)}
+.s-abyss .inp{background:rgba(120,160,255,.06);border:1px solid rgba(120,160,255,.2);border-radius:14px;color:var(--fg)}
+
+/* --- voltage --- */
+.s-volt{background:var(--bg);background-image:radial-gradient(700px 300px at 15% -10%,color-mix(in srgb,var(--a1) 55%,transparent),transparent 66%);color:#0A0A0A}
+.s-volt .bar{background:#fff;border:2px solid #0A0A0A;box-shadow:5px 5px 0 #0A0A0A}
+.s-volt .mark{background:#0A0A0A}
+.s-volt .nav b{background:var(--a1);padding:2px 6px}
+.s-volt .card{background:#fff;border:2px solid #0A0A0A;box-shadow:5px 5px 0 #0A0A0A}
+.s-volt .av{border:2px solid #0A0A0A}
+.s-volt .chip{background:var(--a1);border:2px solid #0A0A0A;font-weight:600}
+.s-volt .btn{background:var(--a1);color:#0A0A0A;border:2px solid #0A0A0A;box-shadow:3px 3px 0 #0A0A0A}
+.s-volt .inp{background:#fff;border:2px solid #0A0A0A;color:#555}
+.s-volt .tag{background:var(--a1);display:inline-block;padding:0 4px;font-weight:700}
+
+/* --- glass --- */
+.s-glass{background:var(--bg);background-image:linear-gradient(140deg,color-mix(in srgb,var(--a1) 34%,#fff) 0%,color-mix(in srgb,var(--a2) 30%,#fff) 48%,color-mix(in srgb,var(--a1) 20%,#fff) 100%);color:#14161C}
+.s-glass .bar{background:rgba(255,255,255,.58);border:1px solid rgba(255,255,255,.75);border-radius:22px;backdrop-filter:blur(24px) saturate(180%);box-shadow:0 8px 30px rgba(31,41,80,.12)}
+.s-glass .mark{border-radius:14px;box-shadow:0 6px 18px color-mix(in srgb,var(--a1) 45%,transparent)}
+.s-glass .nav b{color:var(--a1)}
+.s-glass .card{background:rgba(255,255,255,.62);border:1px solid rgba(255,255,255,.95);border-radius:26px;backdrop-filter:blur(26px) saturate(180%);box-shadow:0 10px 34px rgba(31,41,80,.10),inset 0 1px 0 rgba(255,255,255,.85)}
+.s-glass .av{border-radius:50%}
+.s-glass .chip{background:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.9);border-radius:999px;color:var(--a1)}
+.s-glass .chip{color:color-mix(in srgb,var(--a1) 70%,#000)}
+.s-glass .btn{background:linear-gradient(135deg,var(--a1),var(--a2));color:#fff;border-radius:999px;box-shadow:0 6px 18px rgba(31,41,80,.18)}
+.s-glass .inp{background:rgba(255,255,255,.72);color:#4A5060;border:1px solid rgba(255,255,255,.9);border-radius:18px;color:#666}
+.s-glass .tag{color:var(--a1)}
+
+/* --- wasteland --- */
+.s-waste{background:var(--bg);background-image:repeating-linear-gradient(0deg,rgba(0,0,0,.30) 0 1px,transparent 1px 3px),radial-gradient(1200px 500px at 50% -20%,color-mix(in srgb,var(--a1) 14%,transparent),transparent 70%);color:var(--fg)}
+.s-waste .bar{background:color-mix(in srgb,var(--panel) 94%,transparent);border:1px solid rgba(200,163,74,.22);border-radius:3px;box-shadow:inset 0 0 40px rgba(0,0,0,.4)}
+.s-waste .mark{border-radius:2px;filter:saturate(.75)}
+.s-waste .nav{text-transform:uppercase;letter-spacing:.06em;font-size:11px}
+.s-waste .nav b{color:var(--a1)}
+.s-waste .card{background:color-mix(in srgb,var(--panel) 94%,transparent);border:1px solid rgba(200,163,74,.2);border-radius:3px;box-shadow:inset 0 0 60px rgba(0,0,0,.35)}
+.s-waste .av{border-radius:50%;filter:saturate(.7) contrast(1.05)}
+.s-waste .chip{background:rgba(0,0,0,.25);border:1px solid rgba(200,163,74,.25);border-radius:2px;color:color-mix(in srgb,var(--a1) 80%,#fff)}
+.s-waste .btn{background:var(--a1);color:#14120f;border-radius:2px;border:1px solid var(--a1);text-transform:uppercase;letter-spacing:.06em}
+.s-waste .inp{background:rgba(0,0,0,.28);border:1px solid rgba(200,163,74,.22);border-radius:2px;color:var(--fg);text-transform:uppercase;font-size:11px;letter-spacing:.05em}
+.s-waste h3{text-transform:uppercase;letter-spacing:.1em}
+.s-waste .tag{color:var(--a1)}
+</style></head><body>
+
+<div class="lbl">① ABYSS · 深色霓虹玻璃 · 圆角16<span class="dots"><i class="dot" style="background:#22d3ee"></i><i class="dot" style="background:#ff7a18"></i><i class="dot" style="background:#9fb7c9"></i></span></div>
+<div class="stage s-abyss" style="--bg:#060911;--panel:#0f1524;--fg:#c8d3f5;--a1:#22d3ee;--a2:#a78bfa" data-tpl></div>
+
+<div class="lbl">② VOLTAGE · 明亮暴烈 · 直角 + 硬边框<span class="dots"><i class="dot" style="background:#D2FF00"></i><i class="dot" style="background:#FF00A8"></i><i class="dot" style="background:#00B8FF"></i></span></div>
+<div class="stage s-volt" style="--bg:#FBFFE9;--panel:#fff;--fg:#0A0A0A;--a1:#D2FF00;--a2:#A8D400" data-tpl></div>
+
+<div class="lbl">③ LIQUID GLASS · 极简液态玻璃 · 大圆角 26<span class="dots"><i class="dot" style="background:#6B8CFF"></i><i class="dot" style="background:#FF7BA9"></i><i class="dot" style="background:#56A97A"></i></span></div>
+<div class="stage s-glass" style="--bg:#EEF3FF;--panel:#fff;--fg:#1F2430;--a1:#6B8CFF;--a2:#B08CFF" data-tpl></div>
+
+<div class="lbl">④ WASTELAND · 核冬天 / 废土 · 噪点 + 低饱和<span class="dots"><i class="dot" style="background:#c8a34a"></i><i class="dot" style="background:#c25a2a"></i><i class="dot" style="background:#a8c93a"></i></span></div>
+<div class="stage s-waste" style="--bg:#14120f;--panel:#1d1a16;--fg:#d9d2c5;--a1:#c8a34a;--a2:#8a8375" data-tpl></div>
+
+<script>
+const tpl = `
+<div class="app">
+  <div class="bar"><div class="mark"></div><div class="brand">いわし</div>
+    <div class="nav"><span><b>ホーム</b></span><span>通知</span><span>探索</span><span>ドライブ</span></div></div>
+  <div class="cols">
+    <div class="card">
+      <div class="row" style="margin-bottom:11px"><div class="av"></div>
+        <div><div class="nm">iwashi</div><div class="hd">@iwashi@mk.iwashi.rip</div></div></div>
+      <div class="h3">Trending</div>
+      <div class="tag">#fediverse</div><div class="tag">#夜の勉強</div><div class="tag">#数学分析</div>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:11px"><div class="row"><div class="av"></div><div class="inp">今なにしてる？</div><span class="btn">投稿</span></div></div>
+      <div class="card"><div class="row" style="align-items:flex-start"><div class="av"></div><div>
+        <div><span class="nm">iwashi</span><span class="hd">@iwashi@mk.iwashi.rip · 3分前</span></div>
+        <div class="tx">四套外观语言，同一套内容。<br>配色和形状可以分开选。</div>
+        <div class="chips"><span class="chip">👍 3</span><span class="chip">🎉 5</span><span class="chip">✨ 2</span></div>
+      </div></div></div>
+    </div>
+  </div>
+</div>`;
+document.querySelectorAll('[data-tpl]').forEach(el => el.innerHTML = tpl);
+</script>
+</body></html>

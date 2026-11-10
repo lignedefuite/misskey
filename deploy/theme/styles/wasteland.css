@@ -1,0 +1,55 @@
+/* ===== Style Pack: Wasteland =====
+ * 核冬天 / 废土 · 小圆角 3 · 颗粒噪点 · 低饱和
+ * 配色由主题（theme）提供，本文件只负责"形状与材质"：
+ * 圆角 / 边框 / 阴影 / 模糊 / 字体排印 / 滚动条
+ * Phase 1：整段粘进 设置 → 外观 → 自定义 CSS
+ * Phase 2：会被包进 html[data-ui-style="..."] 作用域
+ */
+
+:root { --MI-radius: 3px; }
+
+body {
+  background-image:
+    repeating-linear-gradient(0deg, rgba(0,0,0,.28) 0 1px, transparent 1px 3px),
+    radial-gradient(1200px 500px at 50% -20%, color-mix(in srgb, var(--MI_THEME-accent) 14%, transparent), transparent 70%);
+  background-attachment: fixed !important;
+  filter: saturate(.82) contrast(1.04);
+}
+
+._panel, ._acrylic {
+  background: color-mix(in srgb, var(--MI_THEME-panel) 92%, transparent) !important;
+  border: 1px solid var(--MI_THEME-divider) !important;
+  border-radius: 3px !important;
+  box-shadow: inset 0 0 60px rgba(0,0,0,.35), 0 6px 18px rgba(0,0,0,.45);
+  backdrop-filter: none !important;
+}
+._panel::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background-image: repeating-linear-gradient(45deg, rgba(255,255,255,.02) 0 2px, transparent 2px 6px);
+}
+
+._button {
+  border-radius: 2px !important;
+  border: 1px solid var(--MI_THEME-divider) !important;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  font-weight: 700;
+  box-shadow: inset 0 -2px 0 rgba(0,0,0,.35);
+}
+._buttonPrimary, ._buttonGradate {
+  background: var(--MI_THEME-accent) !important;
+  background-image: none !important;
+  color: var(--MI_THEME-fgOnAccent) !important;
+  border: 1px solid var(--MI_THEME-accent) !important;
+}
+._input, input, textarea, select {
+  border-radius: 2px !important;
+  background: color-mix(in srgb, var(--MI_THEME-bg) 70%, transparent) !important;
+  border: 1px solid var(--MI_THEME-divider) !important;
+}
+
+h1, h2, h3, h4 { text-transform: uppercase; letter-spacing: .08em; }
+::selection { background: var(--MI_THEME-accent); color: var(--MI_THEME-fgOnAccent); }
+* { scrollbar-width: thin; scrollbar-color: var(--MI_THEME-divider) transparent; }
+::-webkit-scrollbar { width: 11px; height: 11px; }
+::-webkit-scrollbar-thumb { background: var(--MI_THEME-divider); border-radius: 0; }
