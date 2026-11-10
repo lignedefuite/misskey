@@ -13483,6 +13483,10 @@ export interface Locale extends ILocale {
          */
         "followDefault": string;
         /**
+         * サーバーの既定スタイル
+         */
+        "defaultForInstance": string;
+        /**
          * Abyss（丸み・ガラス質）
          */
         "abyss": string;

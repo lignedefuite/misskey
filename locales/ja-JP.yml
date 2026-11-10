@@ -3611,6 +3611,7 @@ _uiStyle:
   title: "外観スタイル"
   description: "UIの形と質感を切り替えます。配色はテーマから別途選べます。"
   followDefault: "サーバーの既定に従う"
+  defaultForInstance: "サーバーの既定スタイル"
   abyss: "Abyss（丸み・ガラス質）"
   voltage: "Voltage（直角・硬質）"
   glass: "Liquid Glass（大丸み・ぼかし）"

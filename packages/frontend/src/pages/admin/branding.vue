@@ -106,6 +106,15 @@ SPDX-License-Identifier: AGPL-3.0-only
 					</MkColorInput>
 				</SearchMarker>
 
+				<SearchMarker :keywords="['style', 'appearance', 'shape', 'radius', 'glass', 'square']">
+					<MkRadios
+						v-model="defaultUiStyle"
+						:options="uiStyleOptions"
+					>
+						<template #label><SearchLabel>{{ i18n.ts._uiStyle.defaultForInstance }}</SearchLabel></template>
+					</MkRadios>
+				</SearchMarker>
+
 				<SearchMarker :keywords="['theme', 'default', 'light']">
 					<MkTextarea v-model="defaultLightTheme">
 						<template #label><SearchLabel>{{ i18n.ts.instanceDefaultLightTheme }}</SearchLabel></template>
@@ -184,6 +193,14 @@ const app512IconUrl = ref(meta.app512IconUrl);
 const bannerUrl = ref(meta.bannerUrl);
 const backgroundImageUrl = ref(meta.backgroundImageUrl);
 const themeColor = ref(meta.themeColor);
+type UiStyleId = 'abyss' | 'voltage' | 'glass' | 'wasteland';
+const defaultUiStyle = ref<UiStyleId>((meta.defaultUiStyle as UiStyleId | undefined) ?? 'abyss');
+const uiStyleOptions = [
+	{ value: 'abyss', label: i18n.ts._uiStyle.abyss },
+	{ value: 'voltage', label: i18n.ts._uiStyle.voltage },
+	{ value: 'glass', label: i18n.ts._uiStyle.glass },
+	{ value: 'wasteland', label: i18n.ts._uiStyle.wasteland },
+];
 const defaultLightTheme = ref(meta.defaultLightTheme);
 const defaultDarkTheme = ref(meta.defaultDarkTheme);
 const serverErrorImageUrl = ref(meta.serverErrorImageUrl);
@@ -206,6 +223,7 @@ function save() {
 		bannerUrl: bannerUrl.value,
 		backgroundImageUrl: backgroundImageUrl.value,
 		themeColor: themeColor.value === '' ? null : themeColor.value,
+		defaultUiStyle: defaultUiStyle.value,
 		defaultLightTheme: defaultLightTheme.value === '' ? null : defaultLightTheme.value,
 		defaultDarkTheme: defaultDarkTheme.value === '' ? null : defaultDarkTheme.value,
 		infoImageUrl: infoImageUrl.value === '' ? null : infoImageUrl.value,

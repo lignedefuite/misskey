@@ -5510,6 +5510,7 @@ export type components = {
             infoImageUrl: string | null;
             notFoundImageUrl: string | null;
             iconUrl: string | null;
+            defaultUiStyle: string;
             maxNoteTextLength: number;
             ads: {
                 /**
@@ -9459,6 +9460,7 @@ export interface operations {
                         iconUrl: string | null;
                         app192IconUrl: string | null;
                         app512IconUrl: string | null;
+                        defaultUiStyle: string;
                         enableEmail: boolean;
                         enableServiceWorker: boolean;
                         translatorAvailable: boolean;
@@ -12973,6 +12975,8 @@ export interface operations {
                     iconUrl?: string | null;
                     app192IconUrl?: string | null;
                     app512IconUrl?: string | null;
+                    /** @enum {string} */
+                    defaultUiStyle?: 'abyss' | 'voltage' | 'glass' | 'wasteland';
                     backgroundImageUrl?: string | null;
                     logoImageUrl?: string | null;
                     name?: string | null;
