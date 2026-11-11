@@ -41,45 +41,55 @@ html[data-ui-style='abyss'] ._buttonGradate {
 }
 
 /* ========== Voltage: 直角 + 硬い境界線 ========== */
+/* 注: Misskey は CSS Modules でハッシュ class を使うため、
+   レイアウト要素ではなく汎用クラス (._panel / ._button) を狙う。
+   全ての ._button に枠を付けるとサイドバーが崩れるので、
+   枠とオフセット影はパネルと主要ボタンだけに限定する。 */
 html[data-ui-style='voltage'] {
 	--MI-radius: 0px;
 }
 
-html[data-ui-style='voltage'] ._panel,
-html[data-ui-style='voltage'] ._acrylic {
+html[data-ui-style='voltage'] ._panel {
 	background: var(--MI_THEME-panel);
 	border: 2px solid var(--MI_THEME-fg);
 	border-radius: 0;
-	box-shadow: 5px 5px 0 var(--MI_THEME-fg);
+	box-shadow: 4px 4px 0 var(--MI_THEME-fg);
 	backdrop-filter: none;
 }
 
+html[data-ui-style='voltage'] ._shadow {
+	box-shadow: 4px 4px 0 var(--MI_THEME-fg);
+}
+
+/* 通常ボタン: 角を立てるだけ（枠・影なし）で崩れを防ぐ */
 html[data-ui-style='voltage'] ._button {
 	border-radius: 0;
-	border: 2px solid var(--MI_THEME-fg);
-	box-shadow: 3px 3px 0 var(--MI_THEME-fg);
-	font-weight: 700;
-	transition: transform 0.08s ease, box-shadow 0.08s ease;
 }
 
-html[data-ui-style='voltage'] ._button:hover {
-	transform: translate(2px, 2px);
-	box-shadow: 1px 1px 0 var(--MI_THEME-fg);
-}
-
+/* 主要ボタンだけ硬い枠 + オフセット影 */
 html[data-ui-style='voltage'] ._buttonPrimary,
 html[data-ui-style='voltage'] ._buttonGradate {
 	background: var(--MI_THEME-accent);
 	background-image: none;
 	color: var(--MI_THEME-fgOnAccent);
 	border: 2px solid var(--MI_THEME-fg);
+	border-radius: 0;
+	box-shadow: 3px 3px 0 var(--MI_THEME-fg);
+	font-weight: 700;
+	transition: transform 0.08s ease, box-shadow 0.08s ease;
 }
 
-html[data-ui-style='voltage'] input,
-html[data-ui-style='voltage'] textarea,
-html[data-ui-style='voltage'] select {
+html[data-ui-style='voltage'] ._buttonPrimary:hover,
+html[data-ui-style='voltage'] ._buttonGradate:hover {
+	transform: translate(2px, 2px);
+	box-shadow: 1px 1px 0 var(--MI_THEME-fg);
+}
+
+html[data-ui-style='voltage'] ._panel input,
+html[data-ui-style='voltage'] ._panel textarea,
+html[data-ui-style='voltage'] textarea {
 	border-radius: 0;
-	border-width: 2px;
+	border: 2px solid var(--MI_THEME-fg);
 }
 
 /* 円形要素（アバター等）は直角化しない */
@@ -95,32 +105,41 @@ html[data-ui-style='glass'] {
 
 html[data-ui-style='glass'] body {
 	background-image:
-		radial-gradient(900px 500px at 10% 0%, color-mix(in srgb, var(--MI_THEME-accent) 22%, transparent), transparent 60%),
-		radial-gradient(900px 520px at 100% 10%, color-mix(in srgb, var(--MI_THEME-buttonGradateB) 22%, transparent), transparent 60%);
+		radial-gradient(900px 500px at 10% 0%, color-mix(in srgb, var(--MI_THEME-accent) 26%, transparent), transparent 60%),
+		radial-gradient(900px 520px at 100% 10%, color-mix(in srgb, var(--MI_THEME-buttonGradateB) 26%, transparent), transparent 60%),
+		linear-gradient(140deg, color-mix(in srgb, var(--MI_THEME-bg) 92%, #ffffff), color-mix(in srgb, var(--MI_THEME-bg) 78%, #ffffff));
 	background-attachment: fixed;
 }
 
-html[data-ui-style='glass'] ._panel,
-html[data-ui-style='glass'] ._acrylic {
-	background: color-mix(in srgb, var(--MI_THEME-panel) 62%, transparent);
+html[data-ui-style='glass'] ._panel {
+	background: color-mix(in srgb, var(--MI_THEME-panel) 74%, transparent);
 	backdrop-filter: blur(26px) saturate(180%);
 	-webkit-backdrop-filter: blur(26px) saturate(180%);
-	border: 1px solid color-mix(in srgb, #ffffff 85%, transparent);
-	box-shadow: 0 12px 36px rgba(31, 41, 80, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+	border: 1px solid color-mix(in srgb, #ffffff 95%, transparent);
+	border-radius: 26px;
+	box-shadow: 0 14px 40px rgba(31, 41, 80, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+/* パネル内の文字ボタンが背景に溶けないように */
+html[data-ui-style='glass'] ._textButton {
+	color: var(--MI_THEME-accent);
+	font-weight: 700;
 }
 
 html[data-ui-style='glass'] ._button {
 	border-radius: 999px;
-	background: color-mix(in srgb, var(--MI_THEME-panel) 60%, transparent);
-	border: 1px solid color-mix(in srgb, #ffffff 75%, transparent);
+	background: color-mix(in srgb, var(--MI_THEME-panel) 70%, transparent);
+	border: 1px solid color-mix(in srgb, #ffffff 85%, transparent);
 	backdrop-filter: blur(16px) saturate(160%);
 	-webkit-backdrop-filter: blur(16px) saturate(160%);
+	box-shadow: 0 4px 14px rgba(31, 41, 80, 0.1);
 }
 
 html[data-ui-style='glass'] ._buttonPrimary,
 html[data-ui-style='glass'] ._buttonGradate {
 	background: linear-gradient(135deg, var(--MI_THEME-buttonGradateA), var(--MI_THEME-buttonGradateB));
 	color: var(--MI_THEME-fgOnAccent);
+	box-shadow: 0 8px 22px color-mix(in srgb, var(--MI_THEME-accent) 35%, transparent);
 }
 
 /* ========== Wasteland: 廃土 + ざらつき ========== */
@@ -129,7 +148,7 @@ html[data-ui-style='wasteland'] {
 }
 
 html[data-ui-style='wasteland'] body {
-	filter: saturate(0.82) contrast(1.04);
+	filter: saturate(0.9) contrast(1.02);
 }
 
 html[data-ui-style='wasteland'] body::after {
@@ -138,8 +157,9 @@ html[data-ui-style='wasteland'] body::after {
 	inset: 0;
 	pointer-events: none;
 	z-index: 9999;
-	background-image: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.16) 0 1px, transparent 1px 3px);
+	background-image: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.09) 0 1px, transparent 1px 3px);
 	mix-blend-mode: multiply;
+	opacity: 0.9;
 }
 
 html[data-ui-style='wasteland'] ._panel,
