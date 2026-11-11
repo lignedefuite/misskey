@@ -3491,3 +3491,13 @@ _qr:
   scanFile: "从设备扫描图像"
   raw: "文本"
   mfm: "MFM"
+
+_uiStyle:
+  title: "外观样式"
+  description: "切换 UI 的形状与质感。配色可在主题中另行选择。"
+  followDefault: "跟随服务器默认"
+  defaultForInstance: "服务器默认样式"
+  abyss: "Abyss（圆润 · 玻璃质感）"
+  voltage: "Voltage（直角 · 硬朗）"
+  glass: "Liquid Glass（大圆角 · 模糊）"
+  wasteland: "Wasteland（废土 · 颗粒感）"
