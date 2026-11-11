@@ -17,6 +17,7 @@ import { copyToClipboard } from '@/utility/copy-to-clipboard.js';
 import { store } from '@/store.js';
 import { miLocalStorage } from '@/local-storage.js';
 import { getUserMenu } from '@/utility/get-user-menu.js';
+import MkNoteEditDialog from '@/components/MkNoteEditDialog.vue';
 import { clipsCache, favoritedChannelsCache } from '@/cache.js';
 import MkRippleEffect from '@/components/MkRippleEffect.vue';
 import { isSupportShare } from '@/utility/navigator.js';
@@ -207,6 +208,10 @@ export function getNoteMenu(props: {
 				claimAchievement('noteDeletedWithin1min');
 			}
 		});
+	}
+
+	function edit(): void {
+		os.popup(MkNoteEditDialog, { note: appearNote }, {});
 	}
 
 	function delEdit(): void {
@@ -515,6 +520,14 @@ export function getNoteMenu(props: {
 
 		if (appearNote.userId === $i.id || $i.isModerator || $i.isAdmin) {
 			menuItems.push({ type: 'divider' });
+			if (appearNote.userId === $i.id) {
+				menuItems.push({
+					icon: 'ti ti-pencil',
+					text: i18n.ts.edit,
+					action: edit,
+				});
+			}
+
 			if (appearNote.userId === $i.id) {
 				menuItems.push({
 					icon: 'ti ti-edit',

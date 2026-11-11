@@ -61,6 +61,11 @@ export class MiNote {
 	})
 	public threadId: string | null;
 
+	@Column('timestamp with time zone', {
+		nullable: true,
+	})
+	public updatedAt?: Date | null;
+
 	// TODO: varcharにしたい
 	@Column('text', {
 		nullable: true,

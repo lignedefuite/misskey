@@ -366,6 +366,7 @@ export class WebhookTestService {
 		return {
 			id: note.id,
 			createdAt: new Date().toISOString(),
+			updatedAt: null,
 			deletedAt: null,
 			text: note.text,
 			cw: note.cw,

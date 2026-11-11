@@ -154,6 +154,14 @@ function realtimeSubscribe(props: {
 				globalEvents.emit('noteDeleted', id);
 				break;
 			}
+
+			case 'updated': {
+				const mutable = note as unknown as { text: string | null; cw: string | null; updatedAt: string | null };
+				mutable.text = body.text;
+				mutable.cw = body.cw;
+				mutable.updatedAt = new Date().toISOString();
+				break;
+			}
 		}
 	}
 
