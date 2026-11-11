@@ -25,5 +25,7 @@ export interface PostFormProps {
 	initialLocalOnly?: boolean;
 	initialVisibleUsers?: Misskey.entities.UserLite[];
 	initialNote?: Misskey.entities.Note;
+	/** 編集モード（notes/update を使う） */
+	updateMode?: boolean;
 	instant?: boolean;
 };

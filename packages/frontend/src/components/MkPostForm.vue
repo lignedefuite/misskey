@@ -14,12 +14,12 @@ SPDX-License-Identifier: AGPL-3.0-only
 	<header :class="$style.header">
 		<div :class="$style.headerLeft">
 			<button v-if="!fixed" :class="$style.cancel" class="_button" @click="cancel"><i class="ti ti-x"></i></button>
-			<button ref="accountMenuEl" v-click-anime v-tooltip="i18n.ts.account" class="_button" @click="openAccountMenu">
+			<button v-if="!updateMode" ref="accountMenuEl" v-click-anime v-tooltip="i18n.ts.account" class="_button" @click="openAccountMenu">
 				<img :class="$style.avatar" :src="(postAccount ?? $i).avatarUrl" style="border-radius: 100%;"/>
 			</button>
 		</div>
 		<div :class="$style.headerRight">
-			<template v-if="!(targetChannel != null && fixed)">
+			<template v-if="!(targetChannel != null && fixed) && !updateMode">
 				<button v-if="targetChannel == null" ref="visibilityButton" v-tooltip="i18n.ts.visibility" :class="['_button', $style.headerRightItem, $style.visibility]" @click="setVisibility">
 					<span v-if="visibility === 'public'"><i class="ti ti-world"></i></span>
 					<span v-if="visibility === 'home'"><i class="ti ti-home"></i></span>
@@ -32,11 +32,11 @@ SPDX-License-Identifier: AGPL-3.0-only
 					<span :class="$style.headerRightButtonText">{{ targetChannel.name }}</span>
 				</button>
 			</template>
-			<button v-if="visibility !== 'specified'" v-tooltip="i18n.ts._visibility.disableFederation" class="_button" :class="[$style.headerRightItem, { [$style.danger]: localOnly }]" :disabled="targetChannel != null" @click="toggleLocalOnly">
+			<button v-if="visibility !== 'specified' && !updateMode" v-tooltip="i18n.ts._visibility.disableFederation" class="_button" :class="[$style.headerRightItem, { [$style.danger]: localOnly }]" :disabled="targetChannel != null" @click="toggleLocalOnly">
 				<span v-if="!localOnly"><i class="ti ti-rocket"></i></span>
 				<span v-else><i class="ti ti-rocket-off"></i></span>
 			</button>
-			<button ref="otherSettingsButton" v-tooltip="i18n.ts.other" class="_button" :class="$style.headerRightItem" @click="showOtherSettings"><i class="ti ti-dots"></i></button>
+			<button v-if="!updateMode" ref="otherSettingsButton" v-tooltip="i18n.ts.other" class="_button" :class="$style.headerRightItem" @click="showOtherSettings"><i class="ti ti-dots"></i></button>
 			<button ref="submitButtonEl" v-click-anime class="_button" :class="$style.submit" :disabled="!canPost" data-testid="post-form-submit" @click="post">
 				<div :class="$style.submitInner">
 					<template v-if="posted"></template>
@@ -279,6 +279,7 @@ const placeholder = computed((): string => {
 });
 
 const submitText = computed((): string => {
+	if (props.updateMode) return i18n.ts.save;
 	return scheduledAt.value != null
 		? i18n.ts.schedule
 		: renoteTargetNote.value
@@ -289,6 +290,7 @@ const submitText = computed((): string => {
 });
 
 const submitIcon = computed((): string => {
+	if (props.updateMode) return posted.value ? 'ti ti-check' : 'ti ti-device-floppy';
 	return posted.value ? 'ti ti-check' : scheduledAt.value != null ? 'ti ti-calendar-time' : replyTargetNote.value ? 'ti ti-arrow-back-up' : renoteTargetNote.value ? 'ti ti-quote' : 'ti ti-send';
 });
 
@@ -879,7 +881,7 @@ type StoredDrafts = {
 };
 
 function saveDraft() {
-	if (props.instant || props.mock) return;
+	if (props.instant || props.mock || props.updateMode) return;
 
 	const draftsData = JSON.parse(miLocalStorage.getItem('drafts') ?? '{}') as StoredDrafts;
 
@@ -904,6 +906,7 @@ function saveDraft() {
 }
 
 function deleteDraft() {
+	if (props.updateMode) return;
 	const draftsData = JSON.parse(miLocalStorage.getItem('drafts') ?? '{}') as StoredDrafts;
 
 	delete draftsData[draftKey.value];
@@ -1019,7 +1022,7 @@ async function post(ev?: PointerEvent) {
 
 	let postData = {
 		text: text.value === '' ? null : text.value,
-		fileIds: files.value.length > 0 ? files.value.map(f => f.id) : undefined,
+		fileIds: props.updateMode ? files.value.map(f => f.id) : (files.value.length > 0 ? files.value.map(f => f.id) : undefined),
 		replyId: replyTargetNote.value ? replyTargetNote.value.id : undefined,
 		renoteId: renoteTargetNote.value ? renoteTargetNote.value.id : quoteId.value ? quoteId.value : undefined,
 		channelId: targetChannel.value ? targetChannel.value.id : undefined,
@@ -1029,9 +1032,10 @@ async function post(ev?: PointerEvent) {
 		visibility: visibility.value,
 		visibleUserIds: visibility.value === 'specified' ? visibleUsers.value.map(u => u.id) : undefined,
 		reactionAcceptance: reactionAcceptance.value,
+		noteId: props.updateMode ? props.initialNote?.id : undefined,
 	};
 
-	if (withHashtags.value && hashtags.value && hashtags.value.trim() !== '') {
+	if (!props.updateMode && withHashtags.value && hashtags.value && hashtags.value.trim() !== '') {
 		const hashtags_ = hashtags.value.trim().split(' ').map(x => x.startsWith('#') ? x : '#' + x).join(' ');
 		if (!postData.text) {
 			postData.text = hashtags_;
@@ -1075,14 +1079,23 @@ async function post(ev?: PointerEvent) {
 	}
 
 	posting.value = true;
-	misskeyApi('notes/create', postData, token).then((res) => {
+	const apiPromise = props.updateMode
+		? misskeyApi('notes/update', {
+			noteId: props.initialNote!.id,
+			text: postData.text,
+			cw: postData.cw,
+			fileIds: files.value.map(f => f.id),
+		} as any, token)
+		: misskeyApi('notes/create', postData, token);
+
+	apiPromise.then((res: any) => {
 		if (props.freezeAfterPosted) {
 			posted.value = true;
 		} else {
 			clear();
 		}
 
-		globalEvents.emit('notePosted', res.createdNote);
+		if (!props.updateMode) globalEvents.emit('notePosted', res.createdNote);
 
 		nextTick(() => {
 			deleteDraft();
@@ -1094,6 +1107,8 @@ async function post(ev?: PointerEvent) {
 			}
 			posting.value = false;
 			postAccount.value = null;
+
+			if (props.updateMode) return;
 
 			incNotesCount();
 			if (notesCount === 1) {
@@ -1409,7 +1424,7 @@ onMounted(() => {
 
 	nextTick(() => {
 		// 書きかけの投稿を復元
-		if (!props.instant && !props.mention && !props.specified && !props.mock) {
+		if (!props.instant && !props.mention && !props.specified && !props.mock && !props.updateMode) {
 			const draft = JSON.parse(miLocalStorage.getItem('drafts') ?? '{}')[draftKey.value] as StoredDrafts[string] | undefined;
 			if (draft != null) {
 				text.value = draft.data.text;

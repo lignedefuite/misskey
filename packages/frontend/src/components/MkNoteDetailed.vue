@@ -41,6 +41,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<i v-else-if="note.visibility === 'specified'" ref="specified" class="ti ti-mail"></i>
 			</span>
 			<span v-if="note.localOnly" style="margin-left: 0.5em;" :title="i18n.ts._visibility['disableFederation']"><i class="ti ti-rocket-off"></i></span>
+			<span v-if="note.updatedAt" style="margin-left: 0.5em; opacity: 0.7;" :title="i18n.ts.edited">{{ i18n.ts.edited }}</span>
 		</div>
 	</div>
 	<div v-if="isRenote && note.renote == null" :class="$style.deleted">
@@ -63,6 +64,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 								<i v-else-if="appearNote.visibility === 'specified'" ref="specified" class="ti ti-mail"></i>
 							</span>
 							<span v-if="appearNote.localOnly" style="margin-left: 0.5em;" :title="i18n.ts._visibility['disableFederation']"><i class="ti ti-rocket-off"></i></span>
+							<span v-if="appearNote.updatedAt" style="margin-left: 0.5em; opacity: 0.7;" :title="i18n.ts.edited">{{ i18n.ts.edited }}</span>
 						</div>
 					</div>
 					<div :class="$style.noteHeaderUsernameAndBadgeRoles">

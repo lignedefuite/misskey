@@ -328,6 +328,11 @@ export type NoteUpdatedEvent = { id: Note['id'] } & ({
 	body: {
 		text: string;
 		cw: string | null;
+		updatedAt?: string;
+		tags?: string[];
+		emojis?: string[];
+		fileIds?: string[];
+		files?: DriveFile[];
 	};
 } | {
 	type: 'pollVoted';

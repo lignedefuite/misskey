@@ -17,7 +17,6 @@ import { copyToClipboard } from '@/utility/copy-to-clipboard.js';
 import { store } from '@/store.js';
 import { miLocalStorage } from '@/local-storage.js';
 import { getUserMenu } from '@/utility/get-user-menu.js';
-import MkNoteEditDialog from '@/components/MkNoteEditDialog.vue';
 import { clipsCache, favoritedChannelsCache } from '@/cache.js';
 import MkRippleEffect from '@/components/MkRippleEffect.vue';
 import { isSupportShare } from '@/utility/navigator.js';
@@ -211,7 +210,7 @@ export function getNoteMenu(props: {
 	}
 
 	function edit(): void {
-		os.popup(MkNoteEditDialog, { note: appearNote }, {});
+		os.post({ initialNote: appearNote, renote: appearNote.renote, reply: appearNote.reply, channel: appearNote.channel, updateMode: true });
 	}
 
 	function delEdit(): void {

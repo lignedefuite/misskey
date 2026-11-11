@@ -31965,6 +31965,7 @@ export interface operations {
                     noteId: string;
                     text?: string | null;
                     cw?: string | null;
+                    fileIds?: string[];
                 };
             };
         };

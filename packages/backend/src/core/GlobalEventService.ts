@@ -113,6 +113,11 @@ export interface NoteEventTypes {
 	updated: {
 		cw: string | null;
 		text: string;
+		updatedAt?: string;
+		tags?: string[];
+		emojis?: string[];
+		fileIds?: string[];
+		files?: Packed<'DriveFile'>[];
 	};
 	reacted: {
 		reaction: string;

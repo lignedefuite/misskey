@@ -4,7 +4,10 @@
  */
 
 import ms from 'ms';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import type { DriveFilesRepository } from '@/models/_.js';
+import type { MiDriveFile } from '@/models/DriveFile.js';
+import { DI } from '@/di-symbols.js';
 import { Endpoint } from '@/server/api/endpoint-base.js';
 import { GetterService } from '@/server/api/GetterService.js';
 import { ApiError } from '@/server/api/error.js';
@@ -51,6 +54,12 @@ export const meta = {
 			id: 'c7f2a1d4-8b3e-4f5a-9d6c-2e1b0a3f8c57',
 		},
 
+		noSuchFile: {
+			message: 'Some files are not found.',
+			code: 'NO_SUCH_FILE',
+			id: 'b6992544-63e7-67f0-fa7f-32444b1b5306',
+		},
+
 		noContent: {
 			message: 'A note must have text, files, or a renote.',
 			code: 'NO_CONTENT',
@@ -69,6 +78,12 @@ export const paramDef = {
 			maxLength: MAX_NOTE_TEXT_LENGTH,
 		},
 		cw: { type: 'string', nullable: true, maxLength: 100 },
+		fileIds: {
+			type: 'array',
+			uniqueItems: true,
+			minItems: 0,
+			items: { type: 'string', format: 'misskey:id' },
+		},
 	},
 	required: ['noteId'],
 } as const;
@@ -76,6 +91,9 @@ export const paramDef = {
 @Injectable()
 export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-disable-line import/no-default-export
 	constructor(
+		@Inject(DI.driveFilesRepository)
+		private driveFilesRepository: DriveFilesRepository,
+
 		private getterService: GetterService,
 		private noteEntityService: NoteEntityService,
 		private noteUpdateService: NoteUpdateService,
@@ -93,12 +111,23 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 			const text = ps.text !== undefined ? ps.text : note.text;
 			const cw = ps.cw !== undefined ? ps.cw : note.cw;
 
-			if (text == null && cw == null && note.renoteId == null) {
-				const hasFiles = note.fileIds.length > 0;
-				if (!hasFiles) throw new ApiError(meta.errors.noContent);
+			let files: MiDriveFile[] | undefined;
+			if (ps.fileIds !== undefined) {
+				files = ps.fileIds.length === 0
+					? []
+					: await this.driveFilesRepository.createQueryBuilder('file')
+						.where('file.userId = :userId', { userId: me.id })
+						.andWhere('file.id IN (:...fileIds)', { fileIds: ps.fileIds })
+						.getMany();
+				if (files.length !== ps.fileIds.length) throw new ApiError(meta.errors.noSuchFile);
 			}
 
-			await this.noteUpdateService.updateNote(note, { text, cw });
+			const resultingFileIds = ps.fileIds !== undefined ? ps.fileIds : note.fileIds;
+			if (text == null && cw == null && note.renoteId == null && resultingFileIds.length === 0) {
+				throw new ApiError(meta.errors.noContent);
+			}
+
+			await this.noteUpdateService.updateNote(note, { text, cw, fileIds: ps.fileIds, files });
 
 			trackPromise(this.noteUpdateService.deliverUpdate(note));
 

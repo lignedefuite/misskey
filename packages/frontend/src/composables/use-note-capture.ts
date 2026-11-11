@@ -156,10 +156,22 @@ function realtimeSubscribe(props: {
 			}
 
 			case 'updated': {
-				const mutable = note as unknown as { text: string | null; cw: string | null; updatedAt: string | null };
+				const mutable = note as unknown as {
+					text: string | null;
+					cw: string | null;
+					updatedAt: string | null;
+					tags?: string[];
+					emojis?: string[];
+					fileIds?: string[];
+					files?: unknown[];
+				};
 				mutable.text = body.text;
 				mutable.cw = body.cw;
-				mutable.updatedAt = new Date().toISOString();
+				mutable.updatedAt = body.updatedAt ?? new Date().toISOString();
+				if (body.tags != null) mutable.tags = body.tags;
+				if (body.emojis != null) mutable.emojis = body.emojis;
+				if (body.fileIds != null) mutable.fileIds = body.fileIds;
+				if (body.files != null) mutable.files = body.files;
 				break;
 			}
 		}
