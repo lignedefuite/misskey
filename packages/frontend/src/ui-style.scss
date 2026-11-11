@@ -127,12 +127,9 @@ html[data-ui-style='glass'] ._textButton {
 }
 
 html[data-ui-style='glass'] ._button {
+	/* 背景はテーマ既定のまま（アクセント色ボタンの可読性を保つ）*/
 	border-radius: 999px;
-	background: color-mix(in srgb, var(--MI_THEME-panel) 70%, transparent);
-	border: 1px solid color-mix(in srgb, #ffffff 85%, transparent);
-	backdrop-filter: blur(16px) saturate(160%);
-	-webkit-backdrop-filter: blur(16px) saturate(160%);
-	box-shadow: 0 4px 14px rgba(31, 41, 80, 0.1);
+	box-shadow: 0 4px 14px rgba(31, 41, 80, 0.10);
 }
 
 html[data-ui-style='glass'] ._buttonPrimary,
