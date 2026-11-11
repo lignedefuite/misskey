@@ -72,6 +72,8 @@ services:
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - ./data/caddy:/data
+      # 根域名首页（目录挂载：改文件即生效，且不会因文件被替换而失效）
+      - ./apex:/data/site:ro
 
   # 可选：全文搜索。单用户可先不装；装了就在 .config/default.yml 里补 fulltextSearch 配置
   # meilisearch:

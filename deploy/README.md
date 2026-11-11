@@ -192,3 +192,19 @@ $docker compose -f deploy/docker-compose.prod.yml logs --tail 100 web$。常见�
 
 **上传大文件失败**
 Caddyfile 里是 $max_size 300MB$，Misskey 默认 $maxFileSize$ 是 250MB，两个都要改；还要注意云厂商/CDN 的单请求大小限制。
+
+## 根域名（iwashi.rip）开关
+
+首页文件：`deploy/apex/index.html`（容器内挂载为 `/data/site`，改完即生效，无需重启）
+
+```bash
+cd /srv/misskey/deploy
+./apex.sh status              # 当前模式 + 线上探测
+./apex.sh public              # 公开
+./apex.sh private '密码'       # 私密（Basic Auth，用户名 iwashi）
+./apex.sh offline '维护中'     # 下线（503）
+./apex.sh redirect            # 整个根域名 301 到 mk.iwashi.rip
+```
+
+原理：Caddyfile 的 apex 站点块 `import /data/apex-mode.caddy`；脚本改写该片段后热重载 Caddy。
+`data/caddy/apex-mode.caddy` 属于运行时状态，不进 git。

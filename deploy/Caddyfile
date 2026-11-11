@@ -1,6 +1,6 @@
 {
 	email {$ACME_EMAIL}
-	admin off
+	admin localhost:2019
 }
 
 {$MISSKEY_HOST} {
@@ -27,5 +27,22 @@
 			roll_size 20MB
 			roll_keep 5
 		}
+	}
+}
+
+# 根域名：首页 = /data/site/index.html（仓库 deploy/apex/），其余路径跳转到 Misskey
+# 公开/私密/下线由 deploy/apex.sh 切换（写入 /data/apex-mode.caddy 并热重载）
+iwashi.rip, www.iwashi.rip {
+	encode zstd gzip
+
+	@root path / /index.html
+
+	handle @root {
+		root * /data/site
+		import /data/apex-mode.caddy
+	}
+
+	handle {
+		redir https://{$MISSKEY_HOST}{uri} permanent
 	}
 }
