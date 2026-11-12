@@ -3616,3 +3616,17 @@ _uiStyle:
   voltage: "Voltage（直角・硬質）"
   glass: "Liquid Glass（大丸み・ぼかし）"
   wasteland: "Wasteland（廃土・ざらつき）"
+
+_emojiCategorySettings:
+  title: カテゴリの表示設定
+  description: 既定で非表示になっているカテゴリも、ここでオンにすれば表示されます。設定はアカウントに保存されます。
+  expandMode: カテゴリの展開方法
+  expandModeRemember: 前回の状態を記憶する
+  expandModeAll: すべて展開する
+  expandModeDefault: 既定（折りたたむ）
+  defaultVisible: 既定：表示
+  defaultHidden: 既定：非表示
+  reset: 既定に戻す
+  settingsTab: 設定
+  adminTitle: 既定で非表示にする絵文字カテゴリ
+  adminCaption: 1行に1つ、またはカンマ区切りで入力してください。末尾に「/」を付けるとサブカテゴリもまとめて非表示になります。ユーザーは自分の設定から個別に表示へ切り替えられます。

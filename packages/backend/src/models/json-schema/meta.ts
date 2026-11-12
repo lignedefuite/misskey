@@ -159,6 +159,11 @@ export const packedMetaLiteSchema = {
 			type: 'string',
 			optional: false, nullable: false,
 		},
+		defaultHiddenEmojiCategories: {
+			type: 'array',
+			optional: false, nullable: false,
+			items: { type: 'string', optional: false, nullable: false },
+		},
 		maxNoteTextLength: {
 			type: 'number',
 			optional: false, nullable: false,

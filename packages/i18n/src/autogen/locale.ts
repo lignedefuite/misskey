@@ -13503,4 +13503,54 @@ export interface Locale extends ILocale {
          */
         "wasteland": string;
     };
+    "_emojiCategorySettings": {
+        /**
+         * カテゴリの表示設定
+         */
+        "title": string;
+        /**
+         * 既定で非表示になっているカテゴリも、ここでオンにすれば表示されます。設定はアカウントに保存されます。
+         */
+        "description": string;
+        /**
+         * カテゴリの展開方法
+         */
+        "expandMode": string;
+        /**
+         * 前回の状態を記憶する
+         */
+        "expandModeRemember": string;
+        /**
+         * すべて展開する
+         */
+        "expandModeAll": string;
+        /**
+         * 既定（折りたたむ）
+         */
+        "expandModeDefault": string;
+        /**
+         * 既定：表示
+         */
+        "defaultVisible": string;
+        /**
+         * 既定：非表示
+         */
+        "defaultHidden": string;
+        /**
+         * 既定に戻す
+         */
+        "reset": string;
+        /**
+         * 設定
+         */
+        "settingsTab": string;
+        /**
+         * 既定で非表示にする絵文字カテゴリ
+         */
+        "adminTitle": string;
+        /**
+         * 1行に1つ、またはカンマ区切りで入力してください。末尾に「/」を付けるとサブカテゴリもまとめて非表示になります。ユーザーは自分の設定から個別に表示へ切り替えられます。
+         */
+        "adminCaption": string;
+    };
 }

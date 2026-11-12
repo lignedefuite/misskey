@@ -3491,3 +3491,17 @@ _qr:
   scanFile: "从设备扫描图像"
   raw: "文本"
   mfm: "MFM"
+
+_emojiCategorySettings:
+  title: 分类显示设置
+  description: 默认隐藏的分类可以在这里打开。设置会保存到你的账户。
+  expandMode: 分类展开方式
+  expandModeRemember: 记住上次状态
+  expandModeAll: 全部展开
+  expandModeDefault: 默认（全部收起）
+  defaultVisible: 默认：显示
+  defaultHidden: 默认：隐藏
+  reset: 恢复默认
+  settingsTab: 设置
+  adminTitle: 默认隐藏的表情分类
+  adminCaption: 每行一个或用逗号分隔。在末尾加「/」可以把子分类一起隐藏。用户可以在自己的设置里单独打开。

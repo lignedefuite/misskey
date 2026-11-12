@@ -18,6 +18,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 		@paste.stop="paste"
 		@keydown="onKeydown"
 	>
+	<button v-tooltip="i18n.ts._emojiCategorySettings.title" class="_button settingsButton" @click="openCategorySettings"><i class="ti ti-settings ti-fw"></i></button>
 	<!-- FirefoxのTabフォーカスが想定外の挙動となるためtabindex="-1"を追加 https://github.com/misskey-dev/misskey/issues/10744 -->
 	<div ref="emojisEl" class="emojis" tabindex="-1">
 		<section class="result">
@@ -89,11 +90,12 @@ SPDX-License-Identifier: AGPL-3.0-only
 		<div v-once class="group">
 			<header class="_acrylic">{{ i18n.ts.customEmojis }}</header>
 			<XSection
-				v-for="child in customEmojiFolderRoot.children"
+				v-for="child in visibleRootChildren"
 				:key="`custom:${child.value}`"
 				:initialShown="false"
-				:emojis="computed(() => customEmojis.filter(e => filterCategory(e, child.value)).map(e => `:${e.name}:`))"
-				:disabledEmojis="computed(() => customEmojis.filter(e => filterCategory(e, child.value)).filter(e => !canReact(e)).map(e => `:${e.name}:`))"
+				:stateKey="`custom:${child.value}`"
+				:emojis="computed(() => visibleCustomEmojis.filter(e => filterCategory(e, child.value)).map(e => `:${e.name}:`))"
+				:disabledEmojis="computed(() => visibleCustomEmojis.filter(e => filterCategory(e, child.value)).filter(e => !canReact(e)).map(e => `:${e.name}:`))"
 				:hasChildSection="child.children.length !== 0"
 				:customEmojiTree="child.children"
 				@chosen="chosen"
@@ -103,7 +105,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 		</div>
 		<div v-once class="group">
 			<header class="_acrylic">{{ i18n.ts.emoji }}</header>
-			<XSection v-for="category in categories" :key="category" :emojis="emojiCharByCategory.get(category) ?? []" :hasChildSection="false" @chosen="chosen">{{ category }}</XSection>
+			<XSection v-for="category in categories" :key="category" :emojis="emojiCharByCategory.get(category) ?? []" :hasChildSection="false" :stateKey="`emoji:${category}`" @chosen="chosen">{{ category }}</XSection>
 		</div>
 	</div>
 	<div class="tabs">
@@ -137,6 +139,8 @@ import { deviceKind } from '@/utility/device-kind.js';
 import { i18n } from '@/i18n.js';
 import { store } from '@/store.js';
 import { customEmojiCategories, customEmojis, customEmojisMap } from '@/custom-emojis.js';
+import { isCustomEmojiVisible } from '@/utility/emoji-category-visibility.js';
+import MkEmojiCategorySettingsDialog from '@/components/MkEmojiCategorySettingsDialog.vue';
 import { $i } from '@/i.js';
 import { checkReactionPermissions } from '@/utility/check-reaction-permissions.js';
 import { prefer } from '@/preferences.js';
@@ -218,6 +222,19 @@ customEmojiCategories.value.forEach(ec => {
 
 parseAndMergeCategories('', customEmojiFolderRoot);
 
+const visibleCustomEmojis = computed(() => customEmojis.value.filter(isCustomEmojiVisible));
+
+function subtreeHasVisibleEmoji(node: CustomEmojiFolderTree): boolean {
+	if (visibleCustomEmojis.value.some(e => e.category === node.category)) return true;
+	return node.children.some(child => subtreeHasVisibleEmoji(child));
+}
+
+const visibleRootChildren = computed(() => customEmojiFolderRoot.children.filter(subtreeHasVisibleEmoji));
+
+function openCategorySettings(): void {
+	os.popup(MkEmojiCategorySettingsDialog, {}, {});
+}
+
 watch(q, () => {
 	if (emojisEl.value) emojisEl.value.scrollTop = 0;
 
@@ -231,7 +248,7 @@ watch(q, () => {
 
 	const searchCustom = () => {
 		const max = 100;
-		const emojis = customEmojis.value;
+		const emojis = visibleCustomEmojis.value;
 		const matches = new Set<Misskey.entities.EmojiSimple>();
 
 		const exactMatch = emojis.find(emoji => emoji.name === newQ);

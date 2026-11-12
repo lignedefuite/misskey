@@ -62,6 +62,12 @@ export const paramDef = {
 		app192IconUrl: { type: 'string', nullable: true },
 		app512IconUrl: { type: 'string', nullable: true },
 		defaultUiStyle: { type: 'string', enum: ['abyss', 'voltage', 'glass', 'wasteland'] },
+		defaultHiddenEmojiCategories: {
+			type: 'array',
+			uniqueItems: true,
+			nullable: true,
+			items: { type: 'string', maxLength: 256 },
+		},
 		backgroundImageUrl: { type: 'string', nullable: true },
 		logoImageUrl: { type: 'string', nullable: true },
 		name: { type: 'string', nullable: true },
@@ -312,6 +318,10 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 
 			if (ps.defaultUiStyle !== undefined) {
 				set.defaultUiStyle = ps.defaultUiStyle;
+			}
+
+			if (ps.defaultHiddenEmojiCategories !== undefined && ps.defaultHiddenEmojiCategories !== null) {
+				set.defaultHiddenEmojiCategories = ps.defaultHiddenEmojiCategories;
 			}
 
 			if (ps.serverErrorImageUrl !== undefined) {

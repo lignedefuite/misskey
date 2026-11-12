@@ -119,6 +119,11 @@ export const meta = {
 				type: 'string',
 				optional: false, nullable: false,
 			},
+			defaultHiddenEmojiCategories: {
+				type: 'array',
+				optional: false, nullable: false,
+				items: { type: 'string', optional: false, nullable: false },
+			},
 			enableEmail: {
 				type: 'boolean',
 				optional: false, nullable: false,
@@ -688,6 +693,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 				app192IconUrl: instance.app192IconUrl,
 				app512IconUrl: instance.app512IconUrl,
 				defaultUiStyle: instance.defaultUiStyle,
+				defaultHiddenEmojiCategories: instance.defaultHiddenEmojiCategories,
 				backgroundImageUrl: instance.backgroundImageUrl,
 				logoImageUrl: instance.logoImageUrl,
 				defaultLightTheme: instance.defaultLightTheme,

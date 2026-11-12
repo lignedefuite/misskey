@@ -240,6 +240,17 @@ export const PREF_DEF = definePreferences({
 	emojiStyle: {
 		default: 'twemoji' as 'native' | 'fluentEmoji' | 'twemoji',
 	},
+	emojiPickerExpandMode: {
+		default: 'remember' as 'remember' | 'all' | 'default',
+	},
+	emojiPickerExpandedCategories: {
+		accountDependent: true,
+		default: [] as string[],
+	},
+	emojiCategoryOverrides: {
+		accountDependent: true,
+		default: {} as Record<string, boolean>,
+	},
 	menuStyle: {
 		default: 'auto' as 'auto' | 'popup' | 'drawer',
 	},

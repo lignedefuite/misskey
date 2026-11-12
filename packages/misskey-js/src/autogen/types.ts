@@ -5522,6 +5522,7 @@ export type components = {
             notFoundImageUrl: string | null;
             iconUrl: string | null;
             defaultUiStyle: string;
+            defaultHiddenEmojiCategories: string[];
             maxNoteTextLength: number;
             ads: {
                 /**
@@ -9472,6 +9473,7 @@ export interface operations {
                         app192IconUrl: string | null;
                         app512IconUrl: string | null;
                         defaultUiStyle: string;
+                        defaultHiddenEmojiCategories: string[];
                         enableEmail: boolean;
                         enableServiceWorker: boolean;
                         translatorAvailable: boolean;
@@ -12988,6 +12990,7 @@ export interface operations {
                     app512IconUrl?: string | null;
                     /** @enum {string} */
                     defaultUiStyle?: 'abyss' | 'voltage' | 'glass' | 'wasteland';
+                    defaultHiddenEmojiCategories?: string[] | null;
                     backgroundImageUrl?: string | null;
                     logoImageUrl?: string | null;
                     name?: string | null;

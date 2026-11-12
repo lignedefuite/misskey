@@ -8,6 +8,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 	<XGridLocalComponent v-if="headerTab === 'local'" :class="$style.local"/>
 	<XGridRemoteComponent v-else-if="headerTab === 'remote'"/>
 	<XRegisterComponent v-else-if="headerTab === 'register'"/>
+	<XSettingsComponent v-else-if="headerTab === 'settings'"/>
 </PageWithHeader>
 </template>
 
@@ -18,8 +19,9 @@ import { definePage } from '@/page.js';
 import XGridLocalComponent from '@/pages/admin/custom-emojis-manager.local.list.vue';
 import XGridRemoteComponent from '@/pages/admin/custom-emojis-manager.remote.vue';
 import XRegisterComponent from '@/pages/admin/custom-emojis-manager.register.vue';
+import XSettingsComponent from '@/pages/admin/custom-emojis-manager.settings.vue';
 
-type PageMode = 'local' | 'remote';
+type PageMode = 'local' | 'remote' | 'register' | 'settings';
 
 const headerTab = ref<PageMode>('local');
 
@@ -32,6 +34,9 @@ const headerTabs = computed(() => [{
 }, {
 	key: 'register',
 	title: i18n.ts._customEmojisManager._local.tabTitleRegister,
+}, {
+	key: 'settings',
+	title: i18n.ts._emojiCategorySettings.settingsTab,
 }]);
 
 definePage(computed(() => ({

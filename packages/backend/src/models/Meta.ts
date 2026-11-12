@@ -163,6 +163,11 @@ export class MiMeta {
 	public defaultUiStyle: string;
 
 	@Column('varchar', {
+		length: 256, array: true, default: '{}',
+	})
+	public defaultHiddenEmojiCategories: string[];
+
+	@Column('varchar', {
 		length: 1024,
 		nullable: true,
 	})
