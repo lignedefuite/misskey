@@ -238,7 +238,12 @@ function subtreeHasVisibleEmoji(node: CustomEmojiFolderTree): boolean {
 const visibleRootChildren = computed(() => customEmojiFolderRoot.children.filter(subtreeHasVisibleEmoji));
 
 function openCategorySettings(): void {
-	os.popup(MkEmojiCategorySettingsDialog, {}, {});
+	// ピッカーはモーダル(zPriority: middle)なので、設定ダイアログが下に隠れて
+	// クリックが届かなくなる。いったんピッカーを閉じてから設定を開く。
+	emit('esc');
+	window.setTimeout(() => {
+		os.popup(MkEmojiCategorySettingsDialog, {}, {});
+	}, 150);
 }
 
 watch(q, () => {
