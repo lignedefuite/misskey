@@ -222,7 +222,13 @@ customEmojiCategories.value.forEach(ec => {
 
 parseAndMergeCategories('', customEmojiFolderRoot);
 
-const visibleCustomEmojis = computed(() => customEmojis.value.filter(isCustomEmojiVisible));
+const categoryOverrides = prefer.r.emojiCategoryOverrides;
+
+const visibleCustomEmojis = computed(() => {
+	// 依存関係を明示して、設定変更時に再計算されるようにする
+	void categoryOverrides.value;
+	return customEmojis.value.filter(isCustomEmojiVisible);
+});
 
 function subtreeHasVisibleEmoji(node: CustomEmojiFolderTree): boolean {
 	if (visibleCustomEmojis.value.some(e => e.category === node.category)) return true;

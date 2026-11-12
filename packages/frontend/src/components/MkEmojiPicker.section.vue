@@ -87,7 +87,10 @@ const emit = defineEmits<{
 
 const emojis = computed(() => Array.isArray(props.emojis) ? props.emojis : props.emojis.value);
 
-const visibleCustomEmojis = computed(() => customEmojis.value.filter(isCustomEmojiVisible));
+const visibleCustomEmojis = computed(() => {
+	void prefer.r.emojiCategoryOverrides.value;
+	return customEmojis.value.filter(isCustomEmojiVisible);
+});
 
 function subtreeHasVisibleEmoji(node: CustomEmojiFolderTree): boolean {
 	if (visibleCustomEmojis.value.some(e => e.category === node.category)) return true;

@@ -75,9 +75,12 @@ const expandOptions = computed(() => [
 ]);
 
 const expandMode = computed({
-	get: () => prefer.s.emojiPickerExpandMode,
+	get: () => prefer.r.emojiPickerExpandMode.value,
 	set: (v) => { prefer.commit('emojiPickerExpandMode', v); },
 });
+
+// prefer.s は非リアクティブなので、UI更新には prefer.r (ref) を参照する
+const overrides = prefer.r.emojiCategoryOverrides;
 
 const categories = computed(() => {
 	const set = new Set<string>();
@@ -99,13 +102,13 @@ function isDefaultVisible(category: string): boolean {
 }
 
 function isVisible(category: string): boolean {
-	const overrides = prefer.s.emojiCategoryOverrides ?? {};
-	if (Object.prototype.hasOwnProperty.call(overrides, category)) return overrides[category] !== false;
+	const current = overrides.value ?? {};
+	if (Object.prototype.hasOwnProperty.call(current, category)) return current[category] !== false;
 	return isDefaultVisible(category);
 }
 
 function toggle(category: string, visible: boolean): void {
-	const next = { ...(prefer.s.emojiCategoryOverrides ?? {}) };
+	const next = { ...(overrides.value ?? {}) };
 	if (visible === isDefaultVisible(category)) {
 		delete next[category];
 	} else {
@@ -114,7 +117,7 @@ function toggle(category: string, visible: boolean): void {
 	prefer.commit('emojiCategoryOverrides', next);
 }
 
-const hasOverrides = computed(() => Object.keys(prefer.s.emojiCategoryOverrides ?? {}).length > 0);
+const hasOverrides = computed(() => Object.keys(overrides.value ?? {}).length > 0);
 
 const syncOverrides = ref(prefer.isSyncEnabled('emojiCategoryOverrides'));
 const syncExpanded = ref(prefer.isSyncEnabled('emojiPickerExpandedCategories'));
