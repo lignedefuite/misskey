@@ -31,15 +31,7 @@
 }
 
 iwashi.rip, www.iwashi.rip {
-	@root path / /index.html
-
-	handle @root {
-		root * /data/site
-		file_server
-		encode zstd gzip
-	}
-
-	handle {
-		redir https://{$MISSKEY_HOST}{uri} permanent
-	}
+	# apex は現在オフライン（静的ページは廃止）
+	# 再開する場合はここを file_server などに戻す
+	respond 404
 }
