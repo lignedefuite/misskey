@@ -15,8 +15,8 @@
 	respond @booterror 204
 
 	# HTMLはキャッシュさせない（デプロイ直後に古いHTML+新しいアセットの不整合を防ぐ）
-	@notAsset not path /vite/* /client-assets/* /twemoji/* /fluent-emojis/* /emoji/* /files/* /proxy/* /static-assets/* /api/*
-	header @notAsset Cache-Control "no-store"
+	@notAsset not path /vite/* /client-assets/* /twemoji/* /fluent-emojis/* /emoji/* /files/* /proxy/* /static-assets/* /api/* /manifest.json /favicon.ico
+	header @notAsset >Cache-Control "no-store"
 
 	reverse_proxy web:3000 {
 		transport http {
