@@ -7,12 +7,31 @@
 
 // ブロックの中に入れないと、定義した変数がブラウザのグローバルスコープに登録されてしまい邪魔なので
 (async () => {
+	// 起動失敗時の原因をサーバー側で収集できるようにする（プライバシー配慮でUA/メッセージのみ、最大500文字）
+	function reportError(code, e) {
+		try {
+			const msg = (e && (e.message || (e.reason && e.reason.message) || String(e))) || '';
+			const q = new URLSearchParams({
+				code: code,
+				msg: String(msg).slice(0, 500),
+				ua: navigator.userAgent.slice(0, 300),
+				href: location.href.slice(0, 300),
+				lang: navigator.language || '',
+			});
+			fetch('/__booterror?' + q.toString(), { mode: 'no-cors', cache: 'no-store', keepalive: true }).catch(() => {});
+		} catch (_) {
+			// nop
+		}
+	}
+
 	window.onerror = (e) => {
 		console.error(e);
+		reportError('SOMETHING_HAPPENED', e);
 		renderError('SOMETHING_HAPPENED', e);
 	};
 	window.onunhandledrejection = (e) => {
 		console.error(e);
+		reportError('SOMETHING_HAPPENED_IN_PROMISE', e.reason || e);
 		renderError('SOMETHING_HAPPENED_IN_PROMISE', e.reason || e);
 	};
 
@@ -48,11 +67,32 @@
 
 	//#region Script
 	async function importAppScript() {
-		await import(CLIENT_ENTRY ? `/vite/${CLIENT_ENTRY.replace('scripts', lang)}` : '/vite/src/_boot_.ts')
-			.catch(async e => {
-				console.error(e);
-				renderError('APP_IMPORT', e);
-			});
+		try {
+			await import(CLIENT_ENTRY ? `/vite/${CLIENT_ENTRY.replace('scripts', lang)}` : '/vite/src/_boot_.ts');
+		} catch (e) {
+			console.error(e);
+			reportError('APP_IMPORT', e);
+
+			// デプロイ直後の古いHTML/Service Worker/キャッシュ不整合で chunk が 404 になるケースを自己修復する
+			// （1セッションにつき1回だけ）
+			try {
+				if (sessionStorage.getItem('__boot_retry') == null) {
+					sessionStorage.setItem('__boot_retry', '1');
+					if ('serviceWorker' in navigator) {
+						const regs = await navigator.serviceWorker.getRegistrations();
+						await Promise.all(regs.map(r => r.unregister()));
+					}
+					const url = new URL(location.href);
+					url.searchParams.set('_bootretry', Date.now().toString());
+					location.replace(url.toString());
+					return;
+				}
+			} catch (_) {
+				// nop
+			}
+
+			renderError('APP_IMPORT', e);
+		}
 	}
 
 	// タイミングによっては、この時点でDOMの構築が済んでいる場合とそうでない場合とがある
