@@ -246,10 +246,12 @@ export const PREF_DEF = definePreferences({
 	emojiPickerExpandedCategories: {
 		accountDependent: true,
 		default: [] as string[],
+		mergeStrategy: (a, b) => [...new Set([...a, ...b])],
 	},
 	emojiCategoryOverrides: {
 		accountDependent: true,
 		default: {} as Record<string, boolean>,
+		mergeStrategy: (a, b) => ({ ...a, ...b }),
 	},
 	menuStyle: {
 		default: 'auto' as 'auto' | 'popup' | 'drawer',

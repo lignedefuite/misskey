@@ -22,6 +22,18 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 			<MkInfo>{{ i18n.ts._emojiCategorySettings.description }}</MkInfo>
 
+			<div :class="$style.syncList">
+				<div :class="$style.syncRow">
+					<div :class="$style.syncLabel"><i class="ti ti-cloud-cog"></i> {{ i18n.ts._emojiCategorySettings.syncOverrides }}</div>
+					<MkSwitch :modelValue="syncOverrides" @update:modelValue="(v: boolean) => setSync('emojiCategoryOverrides', v)"/>
+				</div>
+				<div :class="$style.syncRow">
+					<div :class="$style.syncLabel"><i class="ti ti-cloud-cog"></i> {{ i18n.ts._emojiCategorySettings.syncExpanded }}</div>
+					<MkSwitch :modelValue="syncExpanded" @update:modelValue="(v: boolean) => setSync('emojiPickerExpandedCategories', v)"/>
+				</div>
+				<div :class="$style.syncHint">{{ i18n.ts._emojiCategorySettings.syncHint }}</div>
+			</div>
+
 			<div :class="$style.list">
 				<div v-for="cat in categories" :key="cat" :class="$style.row">
 					<div :class="$style.labelWrap">
@@ -39,7 +51,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 </template>
 
 <script lang="ts" setup>
-import { computed, useTemplateRef } from 'vue';
+import { computed, ref, useTemplateRef } from 'vue';
 import MkModalWindow from '@/components/MkModalWindow.vue';
 import MkRadios from '@/components/MkRadios.vue';
 import MkSwitch from '@/components/MkSwitch.vue';
@@ -104,6 +116,22 @@ function toggle(category: string, visible: boolean): void {
 
 const hasOverrides = computed(() => Object.keys(prefer.s.emojiCategoryOverrides ?? {}).length > 0);
 
+const syncOverrides = ref(prefer.isSyncEnabled('emojiCategoryOverrides'));
+const syncExpanded = ref(prefer.isSyncEnabled('emojiPickerExpandedCategories'));
+
+async function setSync(key: 'emojiCategoryOverrides' | 'emojiPickerExpandedCategories', enabled: boolean): Promise<void> {
+	if (enabled) {
+		const res = await prefer.enableSync(key as any);
+		const state = prefer.isSyncEnabled(key as any);
+		if (key === 'emojiCategoryOverrides') syncOverrides.value = state;
+		else syncExpanded.value = state;
+	} else {
+		prefer.disableSync(key as any);
+		if (key === 'emojiCategoryOverrides') syncOverrides.value = false;
+		else syncExpanded.value = false;
+	}
+}
+
 function resetAll(): void {
 	prefer.commit('emojiCategoryOverrides', {});
 }
@@ -119,6 +147,34 @@ function close(): void {
 	overflow-y: auto;
 	height: 100%;
 	box-sizing: border-box;
+}
+
+.syncList {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	padding: 10px 12px;
+	border: 0.5px solid var(--MI_THEME-divider);
+	border-radius: var(--MI-radius);
+}
+
+.syncRow {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.syncLabel {
+	flex: 1;
+	min-width: 0;
+	display: flex;
+	gap: 8px;
+	align-items: center;
+}
+
+.syncHint {
+	font-size: 0.8em;
+	opacity: 0.6;
 }
 
 .list {

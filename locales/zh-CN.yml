@@ -3505,3 +3505,6 @@ _emojiCategorySettings:
   settingsTab: 设置
   adminTitle: 默认隐藏的表情分类
   adminCaption: 每行一个或用逗号分隔。在末尾加「/」可以把子分类一起隐藏。用户可以在自己的设置里单独打开。
+  syncOverrides: 在设备间同步分类显示设置
+  syncExpanded: 在设备间同步展开状态
+  syncHint: 打开后会保存到服务器，并在多台设备间同步（默认关闭，只保存在本设备）。

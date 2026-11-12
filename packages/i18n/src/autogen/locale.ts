@@ -13552,5 +13552,17 @@ export interface Locale extends ILocale {
          * 1行に1つ、またはカンマ区切りで入力してください。末尾に「/」を付けるとサブカテゴリもまとめて非表示になります。ユーザーは自分の設定から個別に表示へ切り替えられます。
          */
         "adminCaption": string;
+        /**
+         * カテゴリの表示設定をデバイス間で同期
+         */
+        "syncOverrides": string;
+        /**
+         * カテゴリの展開状態をデバイス間で同期
+         */
+        "syncExpanded": string;
+        /**
+         * オンにするとサーバーに保存され、複数デバイス間で同期されます（既定はオフ、この端末のみに保存）。
+         */
+        "syncHint": string;
     };
 }
