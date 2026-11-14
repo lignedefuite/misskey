@@ -97,6 +97,14 @@ SPDX-License-Identifier: AGPL-3.0-only
 								</MkPreferenceContainer>
 							</SearchMarker>
 
+							<SearchMarker :keywords="['own', 'self', 'sensitive', 'nsfw', 'cw', 'spoiler', 'reveal', 'auto']">
+								<MkPreferenceContainer k="autoRevealOwnSensitiveContent">
+									<MkSwitch v-model="autoRevealOwnSensitiveContent">
+										<template #label><SearchLabel>{{ i18n.ts.autoRevealOwnSensitiveContent }}</SearchLabel></template>
+									</MkSwitch>
+								</MkPreferenceContainer>
+							</SearchMarker>
+
 							<SearchMarker :keywords="['sensitive', 'nsfw', 'media', 'image', 'photo', 'picture', 'attachment', 'confirm']">
 								<MkPreferenceContainer k="confirmWhenRevealingSensitiveMedia">
 									<MkSwitch v-model="confirmWhenRevealingSensitiveMedia">
@@ -949,6 +957,7 @@ const notificationPosition = prefer.model('notificationPosition');
 const notificationStackAxis = prefer.model('notificationStackAxis');
 const instanceTicker = prefer.model('instanceTicker');
 const highlightSensitiveMedia = prefer.model('highlightSensitiveMedia');
+const autoRevealOwnSensitiveContent = prefer.model('autoRevealOwnSensitiveContent');
 const mediaListWithOneImageAppearance = prefer.model('mediaListWithOneImageAppearance');
 const showMediaListByGridInWideArea = prefer.model('showMediaListByGridInWideArea');
 const reactionsDisplaySize = prefer.model('reactionsDisplaySize');

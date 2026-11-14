@@ -61,9 +61,9 @@ SPDX-License-Identifier: AGPL-3.0-only
 						:enableEmojiMenu="true"
 						:enableEmojiMenuReaction="true"
 					/>
-					<MkCwButton v-model="showContent" :text="appearNote.text" :renote="appearNote.renote" :files="appearNote.files" :poll="appearNote.poll" style="margin: 4px 0;"/>
+					<MkCwButton v-if="!autoRevealOwn" v-model="showContent" :text="appearNote.text" :renote="appearNote.renote" :files="appearNote.files" :poll="appearNote.poll" style="margin: 4px 0;"/>
 				</p>
-				<div v-show="appearNote.cw == null || showContent" :class="[{ [$style.contentCollapsed]: collapsed }]">
+				<div v-show="appearNote.cw == null || showContent || autoRevealOwn" :class="[{ [$style.contentCollapsed]: collapsed }]">
 					<div :class="$style.text">
 						<span v-if="appearNote.isHidden" style="opacity: 0.5">({{ i18n.ts.private }})</span>
 						<MkA v-if="appearNote.replyId" :class="$style.replyIcon" :to="`/notes/${appearNote.replyId}`"><i class="ti ti-arrow-back-up"></i></MkA>
@@ -87,7 +87,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 						</div>
 					</div>
 					<div v-if="appearNote.files && appearNote.files.length > 0" style="margin-top: 8px;">
-						<MkMediaList ref="galleryEl" :mediaList="appearNote.files" :user="appearNote.user"/>
+						<MkMediaList ref="galleryEl" :mediaList="appearNote.files" :user="appearNote.user" :autoRevealSensitive="autoRevealOwn"/>
 					</div>
 					<MkPoll
 						v-if="appearNote.poll"
@@ -203,6 +203,7 @@ import { useNote } from '@/composables/use-note.js';
 import { prefer } from '@/preferences.js';
 import { i18n } from '@/i18n.js';
 import { userPage } from '@@/js/user.js';
+import { $i } from '@/i.js';
 import { getNoteSummary } from '@/utility/get-note-summary.js';
 import { isEnabledUrlPreview } from '@/utility/url-preview.js';
 import { focusPrev, focusNext } from '@/utility/focus.js';
@@ -303,6 +304,9 @@ provide(DI.mfmEmojiReactCallback, reactViaMfmEmoji);
 
 // MkNote固有
 const showSoftWordMutedWord = computed(() => prefer.s.showSoftWordMutedWord);
+
+// 自分の投稿に限り、閲覧注意コンテンツとCWを既定で展開する
+const autoRevealOwn = computed(() => prefer.r.autoRevealOwnSensitiveContent.value && $i != null && appearNote.userId === $i.id);
 
 function handleToggleReact() {
 	toggleReact((reaction) => {

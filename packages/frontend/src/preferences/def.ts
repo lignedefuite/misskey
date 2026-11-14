@@ -213,6 +213,9 @@ export const PREF_DEF = definePreferences({
 	highlightSensitiveMedia: {
 		default: false,
 	},
+	autoRevealOwnSensitiveContent: {
+		default: false,
+	},
 	animation: {
 		default: !prefersReducedMotion,
 	},

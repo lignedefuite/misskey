@@ -87,10 +87,12 @@ const props = withDefaults(defineProps<{
 	disableImageLink?: boolean;
 	controls?: boolean;
 	marker?: string;
+	autoRevealSensitive?: boolean;
 }>(), {
 	cover: false,
 	disableImageLink: false,
 	controls: true,
+	autoRevealSensitive: false,
 });
 
 const emit = defineEmits<{
@@ -126,10 +128,15 @@ async function onClick(ev: PointerEvent) {
 
 // Plugin:register_note_view_interruptor を使って書き換えられる可能性があるためwatchする
 watch(() => props.image, (newImage) => {
-	hide.value = shouldHideFileByDefault(newImage);
+	hide.value = !props.autoRevealSensitive && shouldHideFileByDefault(newImage);
 }, {
 	deep: true,
 	immediate: true,
+});
+
+// 自分の投稿を既定で表示する設定が切り替わったときに追従する
+watch(() => props.autoRevealSensitive, (autoRevealSensitive) => {
+	hide.value = !autoRevealSensitive && shouldHideFileByDefault(props.image);
 });
 
 function showMenu(ev: PointerEvent) {

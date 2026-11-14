@@ -25,6 +25,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 					:key="`audio:${media.id}`"
 					:class="$style.media"
 					:audio="media"
+					:autoRevealSensitive="autoRevealSensitive"
 					@mediaClick="onMediaClick(media)"
 				/>
 				<XVideo
@@ -33,6 +34,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 					:ref="(comp) => { mediaComponents.set(media.id, comp as InstanceType<typeof XVideo> | null); }"
 					:class="$style.media"
 					:video="media"
+					:autoRevealSensitive="autoRevealSensitive"
 					@mediaClick="onMediaClick(media)"
 				/>
 				<XImage
@@ -44,6 +46,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 					:class="$style.media"
 					:image="media"
 					:raw="raw"
+					:autoRevealSensitive="autoRevealSensitive"
 					@mediaClick="onMediaClick(media)"
 				/>
 			</template>
@@ -66,11 +69,14 @@ import { prefer } from '@/preferences.js';
 import { isPreviewable, getType } from '@/utility/lightbox.js';
 import { genId } from '@/utility/id.js';
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
 	mediaList: Misskey.entities.DriveFile[];
 	user?: Misskey.entities.User | null; // DriveFileのuserはnullになることがある。その場合に使用する所有者情報
 	raw?: boolean;
-}>();
+	autoRevealSensitive?: boolean;
+}>(), {
+	autoRevealSensitive: false,
+});
 
 const gallery = useTemplateRef('gallery');
 const medias = computed(() => {

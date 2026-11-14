@@ -3157,6 +3157,10 @@ export interface Locale extends ILocale {
      */
     "highlightSensitiveMedia": string;
     /**
+     * 自分の投稿の閲覧注意コンテンツとCWを常に表示
+     */
+    "autoRevealOwnSensitiveContent": string;
+    /**
      * 確認のメールを送信しました。メールに記載されたリンクにアクセスして、設定を完了してください。
      */
     "verificationEmailSent": string;

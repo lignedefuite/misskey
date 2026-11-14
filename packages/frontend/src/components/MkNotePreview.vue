@@ -13,9 +13,9 @@ SPDX-License-Identifier: AGPL-3.0-only
 		<div>
 			<p v-if="useCw" :class="$style.cw">
 				<Mfm v-if="cw != null && cw != ''" :text="cw" :author="user" :nyaize="'respect'" :i="user" style="margin-right: 8px;"/>
-				<MkCwButton v-model="showContent" :text="text.trim()" :files="files" :poll="poll" style="margin: 4px 0;"/>
+				<MkCwButton v-if="!autoRevealOwn" v-model="showContent" :text="text.trim()" :files="files" :poll="poll" style="margin: 4px 0;"/>
 			</p>
-			<div v-show="!useCw || showContent">
+			<div v-show="!useCw || showContent || autoRevealOwn">
 				<Mfm :text="text.trim()" :author="user" :nyaize="'respect'" :i="user"/>
 			</div>
 		</div>
@@ -24,10 +24,12 @@ SPDX-License-Identifier: AGPL-3.0-only
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import * as Misskey from 'misskey-js';
 import type { PollEditorModelValue } from '@/components/MkPollEditor.vue';
 import MkCwButton from '@/components/MkCwButton.vue';
+import { prefer } from '@/preferences.js';
+import { $i } from '@/i.js';
 
 const showContent = ref(false);
 
@@ -39,6 +41,9 @@ const props = defineProps<{
 	cw: string | null;
 	user: Misskey.entities.User;
 }>();
+
+// 自分の投稿に限り、閲覧注意コンテンツとCWを既定で展開する
+const autoRevealOwn = computed(() => prefer.r.autoRevealOwnSensitiveContent.value && $i != null && props.user.id === $i.id);
 </script>
 
 <style lang="scss" module>

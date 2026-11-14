@@ -14,7 +14,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 	</div>
 	<details v-if="note.files && note.files.length > 0">
 		<summary>({{ i18n.tsx.withNFiles({ n: note.files.length }) }})</summary>
-		<MkMediaList :mediaList="note.files" :user="note.user"/>
+		<MkMediaList :mediaList="note.files" :user="note.user" :autoRevealSensitive="autoRevealSensitive"/>
 	</details>
 	<details v-if="note.poll">
 		<summary>{{ i18n.ts.poll }}</summary>
@@ -45,9 +45,12 @@ import MkMediaList from '@/components/MkMediaList.vue';
 import MkPoll from '@/components/MkPoll.vue';
 import { i18n } from '@/i18n.js';
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
 	note: Misskey.entities.Note;
-}>();
+	autoRevealSensitive?: boolean;
+}>(), {
+	autoRevealSensitive: false,
+});
 
 const isLong = shouldCollapsed(props.note, []);
 

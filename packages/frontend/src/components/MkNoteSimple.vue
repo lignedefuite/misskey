@@ -11,10 +11,10 @@ SPDX-License-Identifier: AGPL-3.0-only
 		<div>
 			<p v-if="note.cw != null" :class="$style.cw">
 				<Mfm v-if="note.cw != ''" style="margin-right: 8px;" :text="note.cw" :author="note.user" :nyaize="'respect'" :emojiUrls="note.emojis"/>
-				<MkCwButton v-model="showContent" :text="note.text" :files="note.files" :poll="note.poll"/>
+				<MkCwButton v-if="!autoRevealOwn" v-model="showContent" :text="note.text" :files="note.files" :poll="note.poll"/>
 			</p>
-			<div v-show="note.cw == null || showContent">
-				<MkSubNoteContent :class="$style.text" :note="note"/>
+			<div v-show="note.cw == null || showContent || autoRevealOwn">
+				<MkSubNoteContent :class="$style.text" :note="note" :autoRevealSensitive="autoRevealOwn"/>
 			</div>
 		</div>
 	</div>
@@ -25,19 +25,23 @@ SPDX-License-Identifier: AGPL-3.0-only
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import * as Misskey from 'misskey-js';
 import MkNoteHeader from '@/components/MkNoteHeader.vue';
 import MkSubNoteContent from '@/components/MkSubNoteContent.vue';
 import MkCwButton from '@/components/MkCwButton.vue';
 import { i18n } from '@/i18n.js';
 import { prefer } from '@/preferences.js';
+import { $i } from '@/i.js';
 
 const props = defineProps<{
 	note: Misskey.entities.Note | null;
 }>();
 
 const showContent = ref(false);
+
+// 自分の投稿に限り、閲覧注意コンテンツとCWを既定で展開する
+const autoRevealOwn = computed(() => prefer.r.autoRevealOwnSensitiveContent.value && $i != null && props.note != null && props.note.userId === $i.id);
 </script>
 
 <style lang="scss" module>

@@ -40,24 +40,30 @@ SPDX-License-Identifier: AGPL-3.0-only
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import * as Misskey from 'misskey-js';
 import { notePage } from '@@/js/note.js';
 import { i18n } from '@/i18n.js';
 import { prefer } from '@/preferences.js';
+import { $i } from '@/i.js';
 import { shouldHideFileByDefault, canRevealFile } from '@/utility/sensitive-file.js';
 import bytes from '@/filters/bytes.js';
 
 import MkDriveFileThumbnail from '@/components/MkDriveFileThumbnail.vue';
 
-defineProps<{
+const props = defineProps<{
 	note: Misskey.entities.Note;
 	square?: boolean;
 }>();
 
 const showingFiles = ref<Set<string>>(new Set());
 
+// 自分の投稿に限り、センシティブ指定されたファイルを既定で表示する
+const autoRevealOwn = computed(() => prefer.r.autoRevealOwnSensitiveContent.value && $i != null && props.note.userId === $i.id);
+
 function isHiding(file: Misskey.entities.DriveFile) {
+	if (autoRevealOwn.value && file.isSensitive) return false;
+
 	if (shouldHideFileByDefault(file) && !showingFiles.value.has(file.id)) {
 		if (!file.isSensitive && !file.type.startsWith('image/')) {
 			return false;

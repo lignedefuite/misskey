@@ -8,8 +8,8 @@ SPDX-License-Identifier: AGPL-3.0-only
 	<div class="_panel _gaps_s" :class="$style.content">
 		<div v-if="note.cw != null" :class="$style.richcontent">
 			<div><Mfm :text="note.cw" :author="note.user"/></div>
-			<MkCwButton v-model="showContent" :text="note.text" :renote="note.renote" :files="note.files" :poll="note.poll" style="margin: 4px 0;"/>
-			<div v-if="showContent">
+			<MkCwButton v-if="!autoRevealOwn" v-model="showContent" :text="note.text" :renote="note.renote" :files="note.files" :poll="note.poll" style="margin: 4px 0;"/>
+			<div v-if="showContent || autoRevealOwn">
 				<MkA v-if="note.replyId" class="reply" :to="`/notes/${note.replyId}`"><i class="ti ti-arrow-back-up"></i></MkA>
 				<Mfm v-if="note.text" :text="note.text" :author="note.user"/>
 				<MkA v-if="note.renoteId" class="rp" :to="`/notes/${note.renoteId}`">RN: ...</MkA>
@@ -20,8 +20,8 @@ SPDX-License-Identifier: AGPL-3.0-only
 			<Mfm v-if="note.text" :text="note.text" :author="note.user"/>
 			<MkA v-if="note.renoteId" class="rp" :to="`/notes/${note.renoteId}`">RN: ...</MkA>
 		</div>
-		<div v-if="note.files && note.files.length > 0 && (note.cw == null || showContent)" :class="$style.richcontent">
-			<MkMediaList :mediaList="note.files.slice(0, 4)"/>
+		<div v-if="note.files && note.files.length > 0 && (note.cw == null || showContent || autoRevealOwn)" :class="$style.richcontent">
+			<MkMediaList :mediaList="note.files.slice(0, 4)" :autoRevealSensitive="autoRevealOwn"/>
 		</div>
 		<div v-if="note.reactionCount > 0" :class="$style.reactions">
 			<MkReactionsViewer :noteId="note.id" :reactions="note.reactions" :reactionEmojis="note.reactionEmojis" :myReaction="note.myReaction" :maxNumber="16"/>
@@ -31,20 +31,25 @@ SPDX-License-Identifier: AGPL-3.0-only
 </template>
 
 <script lang="ts" setup>
-import { ref, useTemplateRef, onUpdated, onMounted } from 'vue';
+import { computed, ref, useTemplateRef, onUpdated, onMounted } from 'vue';
 import * as Misskey from 'misskey-js';
 import MkReactionsViewer from '@/components/MkReactionsViewer.vue';
 import MkMediaList from '@/components/MkMediaList.vue';
 import MkPoll from '@/components/MkPoll.vue';
 import MkCwButton from '@/components/MkCwButton.vue';
+import { prefer } from '@/preferences.js';
+import { $i } from '@/i.js';
 
-defineProps<{
+const props = defineProps<{
 	note: Misskey.entities.Note;
 }>();
 
 const noteTextEl = useTemplateRef('noteTextEl');
 const shouldCollapse = ref(false);
 const showContent = ref(false);
+
+// 自分の投稿に限り、閲覧注意コンテンツとCWを既定で展開する
+const autoRevealOwn = computed(() => prefer.r.autoRevealOwnSensitiveContent.value && $i != null && props.note.userId === $i.id);
 
 function calcCollapse() {
 	if (noteTextEl.value) {

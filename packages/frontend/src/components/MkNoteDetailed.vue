@@ -88,9 +88,9 @@ SPDX-License-Identifier: AGPL-3.0-only
 						:enableEmojiMenu="true"
 						:enableEmojiMenuReaction="true"
 					/>
-					<MkCwButton v-model="showContent" :text="appearNote.text" :renote="appearNote.renote" :files="appearNote.files" :poll="appearNote.poll"/>
+					<MkCwButton v-if="!autoRevealOwn" v-model="showContent" :text="appearNote.text" :renote="appearNote.renote" :files="appearNote.files" :poll="appearNote.poll"/>
 				</p>
-				<div v-show="appearNote.cw == null || showContent">
+				<div v-show="appearNote.cw == null || showContent || autoRevealOwn">
 					<span v-if="appearNote.isHidden" style="opacity: 0.5">({{ i18n.ts.private }})</span>
 					<MkA v-if="appearNote.replyId" :class="$style.noteReplyTarget" :to="`/notes/${appearNote.replyId}`"><i class="ti ti-arrow-back-up"></i></MkA>
 					<Mfm
@@ -113,7 +113,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 						</div>
 					</div>
 					<div v-if="appearNote.files && appearNote.files.length > 0">
-						<MkMediaList ref="galleryEl" :mediaList="appearNote.files" :user="appearNote.user"/>
+						<MkMediaList ref="galleryEl" :mediaList="appearNote.files" :user="appearNote.user" :autoRevealSensitive="autoRevealOwn"/>
 					</div>
 					<MkPoll
 						v-if="appearNote.poll"
@@ -247,6 +247,7 @@ import { useNote } from '@/composables/use-note.js';
 import { prefer } from '@/preferences.js';
 import { i18n } from '@/i18n.js';
 import { userPage } from '@@/js/user.js';
+import { $i } from '@/i.js';
 import { notePage } from '@@/js/note.js';
 import { isEnabledUrlPreview } from '@/utility/url-preview.js';
 import { Paginator } from '@/utility/paginator.js';
@@ -334,6 +335,9 @@ provide(DI.mfmEmojiReactCallback, reactViaMfmEmoji);
 // MkNoteDetailed固有
 const tab = ref(props.initialTab);
 const reactionTabType = ref<string | null>(null);
+
+// 自分の投稿に限り、閲覧注意コンテンツとCWを既定で展開する
+const autoRevealOwn = computed(() => prefer.r.autoRevealOwnSensitiveContent.value && $i != null && appearNote.userId === $i.id);
 
 const renotesPaginator = markRaw(new Paginator('notes/renotes', {
 	limit: 10,

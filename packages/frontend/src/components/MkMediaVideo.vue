@@ -48,7 +48,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import * as Misskey from 'misskey-js';
 import type { MediaComponentExposes } from '@/types/media-component.js';
 import bytes from '@/filters/bytes.js';
@@ -58,16 +58,24 @@ import * as os from '@/os.js';
 import { getFileMenu } from '@/utility/get-file-menu.js';
 import { shouldHideFileByDefault, canRevealFile } from '@/utility/sensitive-file.js';
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
 	video: Misskey.entities.DriveFile;
-}>();
+	autoRevealSensitive?: boolean;
+}>(), {
+	autoRevealSensitive: false,
+});
 
 const emit = defineEmits<{
 	(event: 'mediaClick', ev: PointerEvent): void;
 }>();
 
 // eslint-disable-next-line vue/no-setup-props-reactivity-loss
-const hide = ref(shouldHideFileByDefault(props.video));
+const hide = ref(!props.autoRevealSensitive && shouldHideFileByDefault(props.video));
+
+// 自分の投稿を既定で表示する設定が切り替わったときに追従する
+watch(() => props.autoRevealSensitive, (autoRevealSensitive) => {
+	hide.value = !autoRevealSensitive && shouldHideFileByDefault(props.video);
+});
 
 async function reveal() {
 	if (!(await canRevealFile(props.video))) {
