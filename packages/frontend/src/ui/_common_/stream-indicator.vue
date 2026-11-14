@@ -41,7 +41,7 @@ function onDisconnected() {
 
 function onConnected() {
 	if (disconnectedTimerId != null) {
-		window.window.clearTimeout(disconnectedTimerId);
+		window.clearTimeout(disconnectedTimerId);
 		disconnectedTimerId = null;
 	}
 	hasDisconnected.value = false;
@@ -62,7 +62,7 @@ if (store.s.realtimeMode) {
 
 	onUnmounted(() => {
 		if (disconnectedTimerId != null) {
-			clearTimeout(disconnectedTimerId);
+			window.clearTimeout(disconnectedTimerId);
 			disconnectedTimerId = null;
 		}
 		stream.off('_disconnected_', onDisconnected);
