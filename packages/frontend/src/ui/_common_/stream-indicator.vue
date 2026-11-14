@@ -24,10 +24,27 @@ import { store } from '@/store.js';
 
 const zIndex = os.claimZIndex('high');
 
+// 一時的な切断で不安を煽らないよう、3秒以上戻らない場合だけ表示する
+const DISCONNECTED_DISPLAY_DELAY = 1000 * 3;
+
 const hasDisconnected = ref(false);
+let disconnectedTimerId: number | null = null;
 
 function onDisconnected() {
-	hasDisconnected.value = true;
+	if (disconnectedTimerId != null || hasDisconnected.value) return;
+	disconnectedTimerId = window.setTimeout(() => {
+		disconnectedTimerId = null;
+		if (useStream().state === 'connected') return;
+		hasDisconnected.value = true;
+	}, DISCONNECTED_DISPLAY_DELAY);
+}
+
+function onConnected() {
+	if (disconnectedTimerId != null) {
+		window.clearTimeout(disconnectedTimerId);
+		disconnectedTimerId = null;
+	}
+	hasDisconnected.value = false;
 }
 
 function resetDisconnected() {
@@ -39,10 +56,17 @@ function reload() {
 }
 
 if (store.s.realtimeMode) {
-	useStream().on('_disconnected_', onDisconnected);
+	const stream = useStream();
+	stream.on('_disconnected_', onDisconnected);
+	stream.on('_connected_', onConnected);
 
 	onUnmounted(() => {
-		useStream().off('_disconnected_', onDisconnected);
+		if (disconnectedTimerId != null) {
+			clearTimeout(disconnectedTimerId);
+			disconnectedTimerId = null;
+		}
+		stream.off('_disconnected_', onDisconnected);
+		stream.off('_connected_', onConnected);
 	});
 }
 </script>
