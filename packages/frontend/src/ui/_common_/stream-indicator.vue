@@ -41,7 +41,7 @@ function onDisconnected() {
 
 function onConnected() {
 	if (disconnectedTimerId != null) {
-		window.clearTimeout(disconnectedTimerId);
+		window.window.clearTimeout(disconnectedTimerId);
 		disconnectedTimerId = null;
 	}
 	hasDisconnected.value = false;
